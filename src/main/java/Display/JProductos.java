@@ -322,7 +322,7 @@ public class JProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        JMain mainFrame =new JMain();
+        JAdmin mainFrame =new JAdmin();
         mainFrame.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 

@@ -123,8 +123,8 @@ public class JLogin extends javax.swing.JFrame {
                         JAdmin jAdmin = new JAdmin();
                         jAdmin.setVisible(true);
                     } else if (tipoUsuario.equals("E")) {
-                        JMain jMain = new JMain();
-                        jMain.setVisible(true);
+                        JCliente jCliente = new JCliente();
+                        jCliente.setVisible(true);
                         this.dispose();
                     } else {
                         JOptionPane.showMessageDialog(this, "Tipo de usuario no válido.");

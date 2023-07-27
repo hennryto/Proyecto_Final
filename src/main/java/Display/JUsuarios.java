@@ -461,7 +461,7 @@ public class JUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        JMain mainFrame =new JMain();
+        JAdmin mainFrame =new JAdmin();
         mainFrame.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
