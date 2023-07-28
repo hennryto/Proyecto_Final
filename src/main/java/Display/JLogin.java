@@ -25,6 +25,7 @@ import javax.swing.JLabel;
  * @author 50683
  */
 public class JLogin extends javax.swing.JFrame {
+    
 
   
     public JLogin() {
@@ -35,19 +36,10 @@ public class JLogin extends javax.swing.JFrame {
     jLabel2.setIcon(icono);
     ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
     jLabel1.setIcon(icono1);
-  
-  
-    
-    
-    
-    
-       
-        
-        
-  
 
 
     }
+  
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -68,6 +60,17 @@ public class JLogin extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tienda");
+        setFocusable(true);
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                formKeyPressed(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
@@ -139,6 +142,19 @@ public class JLogin extends javax.swing.JFrame {
         }
         Connection connection = Conexion.getConexion();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+        int enterKey = java.awt.event.KeyEvent.VK_ENTER;
+        if (evt.getKeyCode() == enterKey) {
+        jButton1ActionPerformed(null);
+
+    }
+        
+    }//GEN-LAST:event_formKeyPressed
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+     this.requestFocusInWindow();
+    }//GEN-LAST:event_formMouseClicked
 
     /**
      * @param args the command line arguments

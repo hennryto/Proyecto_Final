@@ -4,6 +4,8 @@
  */
 package Clases;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author 50683
@@ -13,6 +15,9 @@ public class Carrito {
     private int cantidad;
     private double precio;
     private double total;
+    private ArrayList<Productos> carrito;
+    
+    
 
     public String getDescripion() {
         return descripion;
@@ -47,6 +52,19 @@ public class Carrito {
     }
 
     public Carrito() {
+        carrito = new ArrayList<>();
+    }
+
+    public ArrayList<Productos> getCarrito() {
+        return carrito;
+    }
+
+    public void setCarrito(ArrayList<Productos> carrito) {
+        this.carrito = carrito;
+    }
+    
+     public void agregarProducto(Productos producto) {
+        carrito.add(producto);
     }
     
     

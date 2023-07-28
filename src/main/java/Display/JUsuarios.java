@@ -410,7 +410,7 @@ public class JUsuarios extends javax.swing.JFrame {
     }
     Usuarios usuarioModificado = new Usuarios(usuario, contrasenna, nombre, apellido, direccion, numeroTelefono, email, tipodeUsuario);
     usuarioModificado.setUsuario(usuario);
-    ImageIcon icono2 = new ImageIcon("src\\main\\java\\Imagenes\\User-.png");
+    ImageIcon icono2 = new ImageIcon("src\\main\\java\\Imagenes\\UserEdit.png");
     try {
         Connection connection = Conexion.getConexion();
         PreparedStatement ps = connection.prepareStatement("UPDATE Usuarios SET usuario =?,password=?,nombre=?,apellido=?,direccion=?,telefono=?,email=?,tipoUsuario=? WHERE Id=?");
@@ -424,7 +424,7 @@ public class JUsuarios extends javax.swing.JFrame {
         ps.setString(8,usuarioModificado.getTipodeUsuario());
         ps.setInt (9,Id);
         ps.executeUpdate();
-        JOptionPane.showMessageDialog(null,"Registro modificado existosamente");
+        JOptionPane.showMessageDialog(null,"Registro de Usuarios","Registro modificado existosamente",JOptionPane.PLAIN_MESSAGE, icono2);
         
         limpiar();
         cargarTabla();
@@ -436,7 +436,7 @@ public class JUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        ImageIcon icono3 = new ImageIcon("src\\main\\java\\Imagenes\\UserEdit.png");
+        ImageIcon icono3 = new ImageIcon("src\\main\\java\\Imagenes\\User-.png");
         int Id = Integer.parseInt(txtId.getText());
        
        

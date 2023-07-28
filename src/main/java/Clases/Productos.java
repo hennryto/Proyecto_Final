@@ -13,6 +13,17 @@ public class Productos {
     private String descripcion;
     private Double precio;
     private int inventario;
+    private int cantidad;
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+   
 
     public String getTipo() {
         return tipo;
