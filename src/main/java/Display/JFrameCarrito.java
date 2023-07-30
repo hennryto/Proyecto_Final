@@ -4,6 +4,9 @@
  */
 package Display;
 
+//import java.awt.Image;
+//import java.awt.Toolkit;
+
 /**
  *
  * @author Usuario
@@ -15,6 +18,10 @@ public class JFrameCarrito extends javax.swing.JFrame {
      */
     public JFrameCarrito() {
         initComponents();
+//        this.setTitle("CARRITO DE COMPRAS");
+//        Image icono = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/imagenes/carrito.png"));
+//        this.setIconImage(icono);
+//        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -59,7 +66,9 @@ public class JFrameCarrito extends javax.swing.JFrame {
             }
         });
 
+        jComboBox1.setMaximumRowCount(100);
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setMinimumSize(new java.awt.Dimension(0, 100));
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -119,9 +128,9 @@ public class JFrameCarrito extends javax.swing.JFrame {
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(30, 30, 30)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField2_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
