@@ -21,20 +21,13 @@ public class JFrameCarrito extends javax.swing.JFrame {
      */
     public JFrameCarrito() {
      
-        Productos carritoProd = new Productos();
-//        Productos.setUsuario(txtLoginUsuarios.getText());
-//        usuario.setContrasenna(new String(txtLoginPassword.getPassword()));
-
-        
-        
+       
         initComponents();
         
-      ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\AgregarCarrito.png");
+      ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\carrito.png");
     jButton_Agregar.setIcon(icono);
+     calcularPrecio(); 
     
-//    ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
-//    jLabel1.setIcon(icono1);
-      
 
     }
 
@@ -87,7 +80,7 @@ public class JFrameCarrito extends javax.swing.JFrame {
         });
 
         jButton_Precio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jButton_Precio.setText("$0.00 $");
+        jButton_Precio.setText("$0.00");
         jButton_Precio.setPreferredSize(new java.awt.Dimension(10, 10));
         jButton_Precio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,8 +92,19 @@ public class JFrameCarrito extends javax.swing.JFrame {
         jComboBox_Producto.setMaximumRowCount(100);
         jComboBox_Producto.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox_Producto.setMinimumSize(new java.awt.Dimension(0, 100));
+        jComboBox_Producto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_ProductoActionPerformed(evt);
+            }
+        });
 
         jSpinner_Cantidad.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jSpinner_Cantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        jSpinner_Cantidad.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSpinner_CantidadStateChanged(evt);
+            }
+        });
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -127,7 +131,6 @@ public class JFrameCarrito extends javax.swing.JFrame {
         jLabel_CarritodeCompras.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel_CarritodeCompras.setText("Carrito de compras");
 
-        jButton_Agregar.setText("jButton1");
         jButton_Agregar.setMaximumSize(new java.awt.Dimension(100, 100));
         jButton_Agregar.setMinimumSize(new java.awt.Dimension(100, 100));
         jButton_Agregar.setPreferredSize(new java.awt.Dimension(100, 100));
@@ -158,16 +161,14 @@ public class JFrameCarrito extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jTextField1)
                                     .addComponent(jTextField2_Precio))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(42, 42, 42)
-                                        .addComponent(jButton_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGap(33, 33, 33)
-                                        .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(42, 42, 42)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton_Precio, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                                    .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
                             .addComponent(jComboBox_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel_CarritodeCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -183,16 +184,13 @@ public class JFrameCarrito extends javax.swing.JFrame {
                                 .addComponent(jTextField2_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jButton_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField2_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSpinner_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField2_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSpinner_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(60, Short.MAX_VALUE))
@@ -202,6 +200,8 @@ public class JFrameCarrito extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1_ProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1_ProductosActionPerformed
+        
+            
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1_ProductosActionPerformed
 
@@ -225,6 +225,21 @@ public class JFrameCarrito extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton_AgregarActionPerformed
 
+    private void jComboBox_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_ProductoActionPerformed
+    calcularPrecio();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_ProductoActionPerformed
+
+    private void jSpinner_CantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_CantidadStateChanged
+           calcularPrecio(); 
+// TODO add your handling code here:
+    }//GEN-LAST:event_jSpinner_CantidadStateChanged
+
+    public void calcularPrecio(){
+//        productos new productoCarrito = productos;
+//        precio=precio[Productos.get.SelectedIndex()];
+//        get.Productos.cantidad = Integer.parseInt(jSpinner_Cantidad.getValue().toString());
+    } 
     /**
      * @param args the command line arguments
      */
