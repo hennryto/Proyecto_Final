@@ -207,8 +207,8 @@ public class JAdmin extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         this.dispose();
-        JCliente jCliente= new JCliente();
-        jCliente.setVisible(true);
+        JFrameCarrito jFrameCarrito= new JFrameCarrito();
+        jFrameCarrito.setVisible(true);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
