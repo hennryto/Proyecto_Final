@@ -16,9 +16,9 @@ public class Conexion {
     private static Connection connection;
 
     public static Connection getConexion() {
-        String DB_URL = "jdbc:sqlserver://HENRYTO:1433;databaseName=Proyecto;"
+        String DB_URL = "jdbc:sqlserver://DESKTOP-A9DI74C\\SQLEXPRESS:1433;databaseName=Proyecto;"
                 + "encrypt=true;trustServerCertificate=true";
-        String USER = "henry";
+        String USER = "sebas";
         String PASS = "12345";
         try {
             Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
