@@ -1,14 +1,14 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package Display;
 
 import Clases.Productos;
+import Clases.DataProductos;
 import Clases.Usuarios;
 import java.awt.Image;
+import java.awt.List;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -28,6 +28,29 @@ public class JFrameCarrito extends javax.swing.JFrame {
         calcularPrecio();
 
     }
+    
+      private void llenarProductos(){
+     
+          DataProductos dtProductos = new DataProductos();
+          dt
+      }
+//                
+//            
+//        try {
+//            List<Productos> listaProductos = Productos.class;
+//            Object[] columnas = new Objetct[]{"Id", "Tipo", "Descripcion", "Precio", "Inventario"};
+//            boolean[] puedeEditar = new boolean[]{false, false, false, false, false};
+//            Object[][] datos = new Objetc[listaProductos.size()][columnas.length];
+//
+//            for (int i = 0; i < listaProductos.size(); i++) {
+//                datos[i][0] = listaProductos.get(i).getId();
+//                datos[i][1] = listaProductos.get(i).getPTipo();
+//                datos[i][2] = listaProductos.get(i).getDescripcion();
+//                datos[i][3] = listaProductos.get(i).getPrecio();
+//                datos[i][4] = listaProductos.get(i).getInventario();
+//            
+//            }
+//        }    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -184,7 +207,7 @@ public class JFrameCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField2_PrecioActionPerformed
 
     private void jButton_PrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PrecioActionPerformed
-        // TODO add your handling code here:
+       calcularPrecio();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton_PrecioActionPerformed
 
     private void jButton_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregarActionPerformed
@@ -192,12 +215,13 @@ public class JFrameCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_AgregarActionPerformed
 
     private void jComboBox_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_ProductoActionPerformed
-        calcularPrecio();
+            
+     
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_ProductoActionPerformed
 
     private void jSpinner_CantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_CantidadStateChanged
-        calcularPrecio();
+
 // TODO add your handling code here:
     }//GEN-LAST:event_jSpinner_CantidadStateChanged
 

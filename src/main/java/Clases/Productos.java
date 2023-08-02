@@ -4,16 +4,35 @@
  */
 package Clases;
 
+import java.awt.List;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author 50683
  */
 public class Productos {
+    private int id;
     private String tipo;
     private String descripcion;
     private Double precio;
     private int inventario;
     private int cantidad;
+    
+    
+     
+    
+       public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    } 
 
     public int getCantidad() {
         return cantidad;
@@ -60,16 +79,24 @@ public class Productos {
     public Productos() {
     }
 
-    public Productos(String tipo, String descripcion, Double precio, int inventario) {
+    public Productos(int id, String tipo, String descripcion, Double precio, int inventario, int cantidad) {
+        this.id = id;
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.precio = precio;
         this.inventario = inventario;
+        this.cantidad = cantidad;
     }
 
     @Override
     public String toString() {
-        return "Productos de la tienda" + "Tipo=" + tipo + ", Descripcion=" + descripcion + ", Precio=" + precio + ", Inventario=" + inventario + "";
+        return "Productos{" + "id=" + id + ", tipo=" + tipo + ", descripcion=" + descripcion + ", precio=" + precio + ", inventario=" + inventario + ", cantidad=" + cantidad + '}';
     }
+
+
+    }
+
+
+
     
-}
+

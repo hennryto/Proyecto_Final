@@ -1,6 +1,9 @@
 
 package Clases;
 
+import java.awt.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Carrito {
@@ -11,6 +14,8 @@ public class Carrito {
      double total;
      double importe;
      ArrayList<Productos> carrito;
+     
+
 
     public int getId() {
         return id;
@@ -85,6 +90,7 @@ public class Carrito {
     public String toString() {
         return "Carrito{" + "id=" + id + ", descripion=" + descripion + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", importe=" + importe + ", carrito=" + carrito + '}';
     }
+  
     
   
 
