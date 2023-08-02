@@ -2,11 +2,12 @@
 package Display;
 
 import Clases.Productos;
-import Clases.DataProductos;
+import Data.DataProductos;
 import Clases.Usuarios;
 import java.awt.Image;
 import java.awt.List;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.table.TableModel;
 
@@ -22,9 +23,10 @@ public class JFrameCarrito extends javax.swing.JFrame {
     public JFrameCarrito() {
 
         initComponents();
+        llenarProductos();
 
         ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\carrito.png");
-        jButton_Agregar.setIcon(icono);
+//        jButton_Agregar.setIcon(icono);
         calcularPrecio();
 
     }
@@ -32,25 +34,26 @@ public class JFrameCarrito extends javax.swing.JFrame {
       private void llenarProductos(){
      
           DataProductos dtProductos = new DataProductos();
-          dt
+          ArrayList<Productos> listaProductos = dtProductos.getProductos();
+          jComboBox_Producto.removeAllItems();
+          
+          for (int i = 0; i < listaProductos.size(); i++) {
+    jComboBox_Producto.addItem(listaProductos.get(i).getDescripcion());
+    
+            
+            }
       }
-//                
-//            
-//        try {
-//            List<Productos> listaProductos = Productos.class;
-//            Object[] columnas = new Objetct[]{"Id", "Tipo", "Descripcion", "Precio", "Inventario"};
-//            boolean[] puedeEditar = new boolean[]{false, false, false, false, false};
-//            Object[][] datos = new Objetc[listaProductos.size()][columnas.length];
-//
-//            for (int i = 0; i < listaProductos.size(); i++) {
-//                datos[i][0] = listaProductos.get(i).getId();
-//                datos[i][1] = listaProductos.get(i).getPTipo();
-//                datos[i][2] = listaProductos.get(i).getDescripcion();
-//                datos[i][3] = listaProductos.get(i).getPrecio();
-//                datos[i][4] = listaProductos.get(i).getInventario();
+    
+//      public void calcularPrecio(){
+//        DataProductos dtProductos = new DataProductos();
+//          ArrayList<Productos> listaPoductos = dtProductos.getprecio();
+//          jButton_Precio();
+//          
+//          for (int i = 0; i < listaProductos.size(); i++) {
+//    jComboBox_Producto.addItem(listaProductos.get(i).getPR());
 //            
 //            }
-//        }    
+//      }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -61,24 +64,30 @@ public class JFrameCarrito extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField2_Precio = new javax.swing.JTextField();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        jTextField_Precio = new javax.swing.JTextField();
         jButton_Precio = new javax.swing.JButton();
         jComboBox_Producto = new javax.swing.JComboBox<>();
         jSpinner_Cantidad = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
+        jTable_ProductosComprar = new javax.swing.JTable();
+        jTextField_IVA = new javax.swing.JTextField();
         jLabel_CarritodeCompras = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton_Agregar = new javax.swing.JButton();
+        jButton_TotalPagar = new javax.swing.JButton();
+        jTextField_Total = new javax.swing.JTextField();
+        jTextField_IncluirEnvio = new javax.swing.JTextField();
+        jComboBox_Envio = new javax.swing.JComboBox<>();
+        jButton_IVA = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextField2_Precio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTextField2_Precio.setText("Precio");
-        jTextField2_Precio.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_Precio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField_Precio.setText("Precio");
+        jTextField_Precio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2_PrecioActionPerformed(evt);
+                jTextField_PrecioActionPerformed(evt);
             }
         });
 
@@ -111,7 +120,7 @@ public class JFrameCarrito extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jTable_ProductosComprar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -122,26 +131,49 @@ public class JFrameCarrito extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jTable1.setMaximumSize(new java.awt.Dimension(10, 10));
-        jScrollPane1.setViewportView(jTable1);
+        jTable_ProductosComprar.setMaximumSize(new java.awt.Dimension(10, 10));
+        jScrollPane1.setViewportView(jTable_ProductosComprar);
 
-        jTextField1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jTextField1.setText("IVA");
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextField_IVA.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField_IVA.setText("IVA");
+        jTextField_IVA.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextField_IVAActionPerformed(evt);
             }
         });
 
         jLabel_CarritodeCompras.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel_CarritodeCompras.setText("Carrito de compras");
 
-        jButton_Agregar.setMaximumSize(new java.awt.Dimension(100, 100));
-        jButton_Agregar.setMinimumSize(new java.awt.Dimension(100, 100));
-        jButton_Agregar.setPreferredSize(new java.awt.Dimension(100, 100));
-        jButton_Agregar.addActionListener(new java.awt.event.ActionListener() {
+        jButton_TotalPagar.setLabel("");
+        jButton_TotalPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_AgregarActionPerformed(evt);
+                jButton_TotalPagarActionPerformed(evt);
+            }
+        });
+
+        jTextField_Total.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField_Total.setText("Total");
+
+        jTextField_IncluirEnvio.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTextField_IncluirEnvio.setText("Incluir Envio");
+        jTextField_IncluirEnvio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField_IncluirEnvioActionPerformed(evt);
+            }
+        });
+
+        jComboBox_Envio.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox_Envio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox_EnvioActionPerformed(evt);
+            }
+        });
+
+        jButton_IVA.setText("jButton1");
+        jButton_IVA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_IVAActionPerformed(evt);
             }
         });
 
@@ -152,82 +184,116 @@ public class JFrameCarrito extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel_CarritodeCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addGap(22, 22, 22)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jComboBox_Producto, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSpinner_Cantidad))
-                            .addGap(181, 181, 181)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jTextField1)
-                                .addComponent(jTextField2_Precio))
-                            .addGap(42, 42, 42)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton_Precio, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
-                                .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jTextField_IVA, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
+                                    .addComponent(jTextField_Precio))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jButton_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jButton_IVA, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jTextField_IncluirEnvio)
+                                    .addComponent(jTextField_Total))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jButton_TotalPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jComboBox_Envio, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel_CarritodeCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 619, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(22, 22, 22)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jComboBox_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(36, 36, 36)
+                                        .addComponent(jSpinner_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel_CarritodeCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBox_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSpinner_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel_CarritodeCompras, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jComboBox_Producto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField2_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton_Precio, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButton_Agregar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                        .addGap(28, 28, 28))
+                        .addGap(14, 14, 14)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jTextField_IVA, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton_IVA))
+                        .addGap(16, 16, 16)
+                        .addComponent(jTextField_IncluirEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                .addComponent(jSpinner_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18))
+                        .addGap(53, 53, 53)
+                        .addComponent(jComboBox_Envio)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jTextField_Total, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                    .addComponent(jButton_TotalPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(196, 196, 196))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2_PrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2_PrecioActionPerformed
+    private void jTextField_PrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_PrecioActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2_PrecioActionPerformed
+    }//GEN-LAST:event_jTextField_PrecioActionPerformed
 
     private void jButton_PrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_PrecioActionPerformed
        calcularPrecio();        // TODO add your handling code here:
     }//GEN-LAST:event_jButton_PrecioActionPerformed
 
-    private void jButton_AgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_AgregarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton_AgregarActionPerformed
-
     private void jComboBox_ProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_ProductoActionPerformed
-            
+            calcularPrecio();
      
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox_ProductoActionPerformed
 
     private void jSpinner_CantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSpinner_CantidadStateChanged
-
+       calcularPrecio();
 // TODO add your handling code here:
     }//GEN-LAST:event_jSpinner_CantidadStateChanged
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextField_IVAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_IVAActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextField_IVAActionPerformed
+
+    private void jButton_TotalPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_TotalPagarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_TotalPagarActionPerformed
+
+    private void jTextField_IncluirEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField_IncluirEnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField_IncluirEnvioActionPerformed
+
+    private void jButton_IVAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_IVAActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_IVAActionPerformed
+
+    private void jComboBox_EnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox_EnvioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox_EnvioActionPerformed
 
     public void calcularPrecio() {
 //        productos new productoCarrito = productos;
@@ -271,15 +337,21 @@ public class JFrameCarrito extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton_Agregar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JButton jButton_IVA;
     private javax.swing.JButton jButton_Precio;
+    private javax.swing.JButton jButton_TotalPagar;
+    private javax.swing.JComboBox<String> jComboBox_Envio;
     private javax.swing.JComboBox<String> jComboBox_Producto;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel_CarritodeCompras;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner_Cantidad;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2_Precio;
+    private javax.swing.JTable jTable_ProductosComprar;
+    private javax.swing.JTextField jTextField_IVA;
+    private javax.swing.JTextField jTextField_IncluirEnvio;
+    private javax.swing.JTextField jTextField_Precio;
+    private javax.swing.JTextField jTextField_Total;
     // End of variables declaration//GEN-END:variables
 }
