@@ -51,7 +51,7 @@ public class JFrameCarrito extends javax.swing.JFrame {
           
           for (int i = 0; i < listaProductos.size(); i++) {
     cboProductos.addItem(listaProductos.get(i).getDescripcion());
-    txtCantDis.  addItem(listaProductos.get(i).getCantidad());
+    txtCantDis.addItem(listaProductos.get(i).getCantidad());
     
     
             
