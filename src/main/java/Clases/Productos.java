@@ -16,31 +16,12 @@ import java.util.ArrayList;
  * @author 50683
  */
 public class Productos {
-    private int id;
     private String tipo;
     private String descripcion;
     private Double precio;
     private int inventario;
     private int cantidad;
     
-    
-     
-    
-       public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    } 
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
     
    
 
@@ -74,13 +55,23 @@ public class Productos {
 
     public void setInventario(int inventario) {
         this.inventario = inventario;
+        
+        
     }
 
+        public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+    
     public Productos() {
     }
 
-    public Productos(int id, String tipo, String descripcion, Double precio, int inventario, int cantidad) {
-        this.id = id;
+    public Productos(String tipo, String descripcion, Double precio, int inventario, int cantidad) {
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.precio = precio;
@@ -88,10 +79,17 @@ public class Productos {
         this.cantidad = cantidad;
     }
 
+    public Productos(int cantidad) {
+        this.cantidad = cantidad;
+    }
+    
+
     @Override
     public String toString() {
-        return "Productos{" + "id=" + id + ", tipo=" + tipo + ", descripcion=" + descripcion + ", precio=" + precio + ", inventario=" + inventario + ", cantidad=" + cantidad + '}';
+        return "Productos{ tipo=" + tipo + ", descripcion=" + descripcion + ", precio=" + precio + ", inventario=" + inventario + ", cantidad=" + cantidad + '}';
     }
+
+
 
 
     }

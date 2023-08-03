@@ -45,7 +45,7 @@ public class JProductos extends javax.swing.JFrame {
         txtPrecio = new javax.swing.JTextField();
         txtDescripcion = new javax.swing.JTextField();
         txtTipo = new javax.swing.JTextField();
-        btnGuardar = new javax.swing.JButton();
+        javax.swing.JButton btnGuardar = new javax.swing.JButton();
         btnActualizar = new javax.swing.JButton();
         btnCerrar = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
@@ -140,7 +140,7 @@ public class JProductos extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(113, 113, 113)
                         .addComponent(btnCerrar)))
-                .addGap(31, 31, 31))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -264,7 +264,6 @@ public class JProductos extends javax.swing.JFrame {
         producto.setDescripcion(txtDescripcion.getText());
         producto.setPrecio(Double.parseDouble(txtPrecio.getText()));
         producto.setInventario(Integer.parseInt(txtInventario.getText()));
-        
         try {
             Connection connection = Conexion.getConexion();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO Productos(Tipo,Descripcion,Precio,Inventario)VALUES(?,?,?,?)");
@@ -272,6 +271,8 @@ public class JProductos extends javax.swing.JFrame {
             ps.setString(2,producto.getDescripcion());
             ps.setDouble(3,producto.getPrecio());
             ps.setInt(4,producto.getInventario());
+            ps.setInt(4,producto.getCantidad());
+            
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null,"Registro guardado existosamente");
             limpiar();
@@ -293,7 +294,7 @@ public class JProductos extends javax.swing.JFrame {
         String Descripcion = txtDescripcion.getText();
         Double Precio = (Double.parseDouble(txtPrecio.getText()));
         int Inventario = Integer.parseInt(txtInventario.getText());
-        Productos productoModificado = new Productos(Tipo, Descripcion, Precio, Inventario);
+        Productos productoModificado = new Productos(Tipo, Descripcion, Precio, Inventario,Cantidad);
         productoModificado.setTipo(Tipo);
         try {
             Connection connection = Conexion.getConexion();
@@ -410,7 +411,6 @@ public class JProductos extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnCerrar;
-    private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

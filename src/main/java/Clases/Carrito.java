@@ -2,6 +2,7 @@
 package Clases;
 
 import java.awt.List;
+import java.util.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +15,18 @@ public class Carrito {
      double total;
      double importe;
      ArrayList<Productos> carrito;
+     private Date fecha;
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+     
+     
+   
      
 
 
@@ -76,7 +89,7 @@ public class Carrito {
     public Carrito() {
     }
 
-    public Carrito(int id, String descripion, int cantidad, double precio, double total, double importe, ArrayList<Productos> carrito) {
+    public Carrito(int id, String descripion, int cantidad, double precio, double total, double importe, ArrayList<Productos> carrito, Date fecha) {
         this.id = id;
         this.descripion = descripion;
         this.cantidad = cantidad;
@@ -84,14 +97,19 @@ public class Carrito {
         this.total = total;
         this.importe = importe;
         this.carrito = carrito;
+        this.fecha = fecha;
     }
 
     @Override
     public String toString() {
-        return "Carrito{" + "id=" + id + ", descripion=" + descripion + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", importe=" + importe + ", carrito=" + carrito + '}';
+        return "Carrito{" + "id=" + id + ", descripion=" + descripion + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", importe=" + importe + ", carrito=" + carrito + ", fecha=" + fecha + '}';
     }
-  
+
+
+    }
+
+
     
   
 
-}
+
