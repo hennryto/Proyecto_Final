@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Usuario
- */
+
+
 public class DataProductos {
     public ArrayList<Productos> getProductos() {
 
@@ -38,6 +36,8 @@ public class DataProductos {
                 prod.setDescripcion(rs.getString("descripcion"));
                 prod.setPrecio(rs.getDouble("precio"));
                 prod.setInventario(rs.getInt("inventario"));
+                prod.setCantidad(rs.getInt("cantidad"));
+               
                 listaProductos.add(prod);
             }
 

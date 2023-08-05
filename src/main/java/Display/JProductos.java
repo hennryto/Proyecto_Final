@@ -294,7 +294,7 @@ public class JProductos extends javax.swing.JFrame {
         String Descripcion = txtDescripcion.getText();
         Double Precio = (Double.parseDouble(txtPrecio.getText()));
         int Inventario = Integer.parseInt(txtInventario.getText());
-        Productos productoModificado = new Productos(Tipo, Descripcion, Precio, Inventario,Cantidad);
+        Productos productoModificado = new Productos(Tipo, Descripcion, Precio, Inventario);
         productoModificado.setTipo(Tipo);
         try {
             Connection connection = Conexion.getConexion();

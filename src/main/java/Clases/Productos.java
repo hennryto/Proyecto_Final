@@ -77,7 +77,19 @@ public class Productos {
         this.precio = precio;
         this.inventario = inventario;
         this.cantidad = cantidad;
+        
+        
     }
+
+    public Productos(String tipo, String descripcion, Double precio, int inventario) {
+        this.tipo = tipo;
+        this.descripcion = descripcion;
+        this.precio = precio;
+        this.inventario = inventario;
+    }
+    
+    
+    
 
     public Productos(int cantidad) {
         this.cantidad = cantidad;

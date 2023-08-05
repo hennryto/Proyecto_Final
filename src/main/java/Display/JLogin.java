@@ -126,7 +126,7 @@ public class JLogin extends javax.swing.JFrame {
                         JAdmin jAdmin = new JAdmin();
                         jAdmin.setVisible(true);
                     } else if (tipoUsuario.equals("E")) {
-                        JFrameCarrito jFrameCarrito = new JFrameCarrito();
+                        JCarrito jFrameCarrito = new JCarrito();
                         jFrameCarrito.setVisible(true);
                         this.dispose();
                     } else {

@@ -8,27 +8,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Carrito {
-    int id;
-    String descripion;
-     int cantidad;
-     double precio;
-     double total;
-     double importe;
-     ArrayList<Productos> carrito;
+    private int id;
+    private String descripion;
+     private int cantidad;
+     private int precio;
+     private int iva;
+     private int envio;
+      private int total;    
+     private ArrayList<Productos> carrito;
      private Date fecha;
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-     
-     
-   
-     
-
 
     public int getId() {
         return id;
@@ -54,28 +42,36 @@ public class Carrito {
         this.cantidad = cantidad;
     }
 
-    public double getPrecio() {
+    public int getPrecio() {
         return precio;
     }
 
-    public void setPrecio(double precio) {
+    public void setPrecio(int precio) {
         this.precio = precio;
     }
 
-    public double getTotal() {
+    public int getIva() {
+        return iva;
+    }
+
+    public void setIva(int iva) {
+        this.iva = iva;
+    }
+
+    public int getEnvio() {
+        return envio;
+    }
+
+    public void setEnvio(int envio) {
+        this.envio = envio;
+    }
+
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(double total) {
+    public void setTotal(int total) {
         this.total = total;
-    }
-
-    public double getImporte() {
-        return importe;
-    }
-
-    public void setImporte(double importe) {
-        this.importe = importe;
     }
 
     public ArrayList<Productos> getCarrito() {
@@ -86,30 +82,36 @@ public class Carrito {
         this.carrito = carrito;
     }
 
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     public Carrito() {
     }
 
-    public Carrito(int id, String descripion, int cantidad, double precio, double total, double importe, ArrayList<Productos> carrito, Date fecha) {
+    public Carrito(int id, String descripion, int cantidad, int precio, int iva, int envio, int total, ArrayList<Productos> carrito, Date fecha) {
         this.id = id;
         this.descripion = descripion;
         this.cantidad = cantidad;
         this.precio = precio;
+        this.iva = iva;
+        this.envio = envio;
         this.total = total;
-        this.importe = importe;
         this.carrito = carrito;
         this.fecha = fecha;
     }
 
     @Override
     public String toString() {
-        return "Carrito{" + "id=" + id + ", descripion=" + descripion + ", cantidad=" + cantidad + ", precio=" + precio + ", total=" + total + ", importe=" + importe + ", carrito=" + carrito + ", fecha=" + fecha + '}';
+        return "Carrito{" + "id=" + id + ", descripion=" + descripion + ", cantidad=" + cantidad + ", precio=" + precio + ", iva=" + iva + ", envio=" + envio + ", total=" + total + ", carrito=" + carrito + ", fecha=" + fecha + '}';
     }
 
-
-    }
-
-
-    
-  
-
+     
+     
+     
+}
 
