@@ -21,6 +21,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.net.URL;
 import javax.swing.JButton;
+import javax.swing.JTable;
 
 /**
  *
@@ -51,9 +52,21 @@ public class JCarrito extends javax.swing.JFrame {
         for (int i = 0; i < listaProductos.size(); i++) {
             cboProductos.addItem(listaProductos.get(i).getDescripcion());
 
+            
+            
         }
     }
 
+    
+//    public void disponible() {
+//
+//    int disponible = dtProductos.getProductos();
+//        
+//
+//}
+    
+ 
+            
     public void limpiar() {
         cboProductos.getSelectedIndex();
         lblDisponible.getText();
@@ -227,7 +240,7 @@ public class JCarrito extends javax.swing.JFrame {
                                         .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)))
                                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)))
+                            .addComponent(jScrollPane1)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -315,6 +328,14 @@ public class JCarrito extends javax.swing.JFrame {
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\anadir-al-carrito.png");
         btnAgregar.setIcon(icono);
+        
+
+       String comboBoxValue = cboProductos.getSelectedItem().toString();   
+       int jS_Cantidad = (int) this.jS_Cantidad.getValue(); 
+       
+          DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
+          model.addRow(new Object[]{ cboProductos.getSelectedItem(),this.jS_Cantidad.getValue(),2});
+        
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
