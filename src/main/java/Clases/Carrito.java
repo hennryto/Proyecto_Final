@@ -110,6 +110,16 @@ public class Carrito {
         return "Carrito{" + "id=" + id + ", descripion=" + descripion + ", cantidad=" + cantidad + ", precio=" + precio + ", iva=" + iva + ", envio=" + envio + ", total=" + total + ", carrito=" + carrito + ", fecha=" + fecha + '}';
     }
 
+    public Carrito(String descripion) {
+        this.descripion = descripion;
+    }
+
+    public void setDescripcion(String toString) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
+
      
      
      

@@ -21,7 +21,7 @@ public class Proyecto_Final {
     public static void main(String[] args) throws SQLException {  
         Conexion conexion = new Conexion();
         conexion.getConexion(); // Establece la conexión
-        
+
         
        
         if (conexion.getConexion() != null) {

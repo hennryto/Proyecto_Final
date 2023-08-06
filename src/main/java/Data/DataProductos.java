@@ -36,7 +36,7 @@ public class DataProductos {
                 prod.setDescripcion(rs.getString("descripcion"));
                 prod.setPrecio(rs.getDouble("precio"));
                 prod.setInventario(rs.getInt("inventario"));
-                prod.setCantidad(rs.getInt("cantidad"));
+//                prod.setCantidad(rs.getInt("cantidad"));
                
                 listaProductos.add(prod);
             }

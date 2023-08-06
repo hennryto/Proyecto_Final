@@ -36,6 +36,8 @@ public class JLogin extends javax.swing.JFrame {
     jLabel2.setIcon(icono);
     ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
     jLabel1.setIcon(icono1);
+    
+ 
 
 
     }
