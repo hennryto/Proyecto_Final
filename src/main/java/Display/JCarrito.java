@@ -56,7 +56,7 @@ public class JCarrito extends javax.swing.JFrame {
 
     public void limpiar() {
         cboProductos.getSelectedIndex();
-        cboDisponible.getSelectedIndex();
+        lblDisponible.getText();
         TxtPrecio.setText("");
         TxtIva.setText("");
         Txt_IncEnvio.setText("");
@@ -108,12 +108,12 @@ public class JCarrito extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPasswordField1 = new javax.swing.JPasswordField();
         jL_CarritoTitulo = new javax.swing.JLabel();
         cboProductos = new javax.swing.JComboBox<>();
         jS_Cantidad = new javax.swing.JSpinner();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblCarrito = new javax.swing.JTable();
-        cboDisponible = new javax.swing.JComboBox<>();
         TxtPrecio = new javax.swing.JTextField();
         TxtIva = new javax.swing.JTextField();
         Txt_IncEnvio = new javax.swing.JTextField();
@@ -122,9 +122,18 @@ public class JCarrito extends javax.swing.JFrame {
         TxtValorIva = new javax.swing.JTextField();
         TxtValorIncEnvio = new javax.swing.JTextField();
         TxtValorTotal = new javax.swing.JTextField();
-        javax.swing.JButton btnAnnadir = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        lblDisponible = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        jPasswordField1.setText("jPasswordField1");
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Compras");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         jL_CarritoTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jL_CarritoTitulo.setText("Carrito de compras");
@@ -142,20 +151,24 @@ public class JCarrito extends javax.swing.JFrame {
 
         tblCarrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Producto", "Cantidad", "Precio"
             }
-        ));
-        jScrollPane1.setViewportView(tblCarrito);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+            };
 
-        cboDisponible.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboDisponible.setToolTipText("");
-        cboDisponible.setBorder(javax.swing.BorderFactory.createTitledBorder("Disponible"));
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tblCarrito);
 
         TxtPrecio.setText("Precio");
 
@@ -183,11 +196,14 @@ public class JCarrito extends javax.swing.JFrame {
             }
         });
 
-        btnAnnadir.addActionListener(new java.awt.event.ActionListener() {
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnnadirActionPerformed(evt);
+                btnAgregarActionPerformed(evt);
             }
         });
+
+        lblDisponible.setBorder(javax.swing.BorderFactory.createTitledBorder("Disponible"));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,16 +215,18 @@ public class JCarrito extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 27, 27))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jS_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(cboDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(38, 38, 38)
-                                .addComponent(btnAnnadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)))
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -232,11 +250,10 @@ public class JCarrito extends javax.swing.JFrame {
                 .addComponent(jL_CarritoTitulo)
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnAnnadir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cboProductos)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboDisponible)
-                        .addComponent(jS_Cantidad)))
+                    .addComponent(jS_Cantidad)
+                    .addComponent(lblDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -295,53 +312,15 @@ public class JCarrito extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtValorTotalActionPerformed
 
-    private void btnAnnadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnnadirActionPerformed
-        // TODO add your handling code here:
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\anadir-al-carrito.png");
+        btnAgregar.setIcon(icono);
+    }//GEN-LAST:event_btnAgregarActionPerformed
 
-
-        ImageIcon icono = new ImageIcon("Imagenes\\anadir-al-carrito.png");
-//        btnAnnadir.setIcon(icono);
-        
-        Carrito carrito = new Carrito();
-        carrito.setDescripcion(cboProductos.getSelectedItem().toString());
-        carrito.setCantidad(Integer.parseInt(jS_Cantidad.getSize().toString()));
-        carrito.setPrecio(Integer.parseInt(TxtPrecio.getText()));
-        carrito.setIva(Integer.parseInt(TxtIva.getText()));
-        carrito.setEnvio(Integer.parseInt(Txt_IncEnvio.getText()));
-        carrito.setTotal(Integer.parseInt(TxtTotal.getText()));
-
-//        usuario.setTipodeUsuario("");
-//        if (() == true) {
-//            usuario.setTipodeUsuario("A");
-//        } else if (rbEstadandar.isSelected() == true) {
-//            usuario.setTipodeUsuario("E");;
-//        } else {
-//            usuario.setTipodeUsuario("E");
-//        }
-
-
-            try {
-                Connection connection = Conexion.getConexion();
-                PreparedStatement ps = connection.prepareStatement("INSERT INTO Carrito (Descripcion,Cantidad,Precio,Iva, Envio, Total)VALUES(?,?,?,?)");
-                ps.setString(1, carrito.getDescripion());
-                ps.setInt(2, carrito.getCantidad());
-                ps.setDouble(3, carrito.getPrecio());
-                ps.setInt(4, carrito.getIva());
-                ps.setInt(4, carrito.getEnvio());
-                ps.setInt(4, carrito.getTotal());
-
-                ps.executeUpdate();
-                JOptionPane.showMessageDialog(null, "Registro guardado existosamente");
-                //   limpiar();
-                cargarTablaCarrito();
-
-            } catch (SQLException e) {
-
-                JOptionPane.showMessageDialog(null, e.toString());
-
-            }
-
-    }//GEN-LAST:event_btnAnnadirActionPerformed
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+         JLogin jLogin =new JLogin();
+        jLogin.setVisible(true);
+    }//GEN-LAST:event_formWindowClosed
 
     /**
          * @param args the command line arguments
@@ -386,11 +365,13 @@ public class JCarrito extends javax.swing.JFrame {
     private javax.swing.JTextField TxtValorIva;
     private javax.swing.JTextField TxtValorTotal;
     private javax.swing.JTextField Txt_IncEnvio;
-    private javax.swing.JComboBox<String> cboDisponible;
+    private javax.swing.JButton btnAgregar;
     private javax.swing.JComboBox<String> cboProductos;
     private javax.swing.JLabel jL_CarritoTitulo;
+    private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSpinner jS_Cantidad;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDisponible;
     private javax.swing.JTable tblCarrito;
     private javax.swing.JTextField txtValorPrecio;
     // End of variables declaration//GEN-END:variables

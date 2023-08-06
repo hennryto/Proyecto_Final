@@ -9,6 +9,7 @@ import Clases.Usuarios;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -146,9 +147,13 @@ public class JLogin extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-        int enterKey = java.awt.event.KeyEvent.VK_ENTER;
-        if (evt.getKeyCode() == enterKey) {
-        jButton1ActionPerformed(null);
+      
+        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+            jButton1ActionPerformed(null);
+   
+//int enterKey = java.awt.event.KeyEvent.VK_ENTER;
+        //if (evt.getKeyCode() == enterKey) {
+        //jButton1ActionPerformed(null);
 
     }
         
