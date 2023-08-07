@@ -44,36 +44,9 @@ public class JCarrito extends javax.swing.JFrame {
 
     }
 
-//    private void llenarProductos() {
-//
-//        DataProductos dtProductos = new DataProductos();
-//        ArrayList<Productos> listaProductos = dtProductos.getProductos();
-//
-//        cboProductos.removeAllItems();
-//
-//        for (int i = 0; i < listaProductos.size(); i++) {
-//            cboProductos.addItem(listaProductos.get(i).getDescripcion());
-//                 
-//        }
-//     cboProductos.addItemListener(new ItemListener() { 
-//        public void itemStateChanged(ItemEvent e) {
-//       if (e.getStateChange() == ItemEvent.SELECTED) {
-//            int selectedProductIndex = cboProductos.getSelectedIndex();
-//            if (selectedProductIndex != -1) {
-//                int cantidadDisponible = (int) listaProductos.get(selectedProductIndex).getCantidad();
-//                lblDisponible.setText(String.valueOf(cantidadDisponible));
-//               
-//        }
-//        }
-// }
-//        
-//    
-//
-//
-// });
-//    }
     private ArrayList<Productos> listaProductos;
    private void llenarProductos() {
+ 
        
     DataProductos dtProductos = new DataProductos();
     listaProductos = dtProductos.getProductos();  // Inicializar la listaProductos
@@ -95,6 +68,7 @@ public class JCarrito extends javax.swing.JFrame {
                     lblDisponible.setText(cantidad + "");
                 }
             }
+ 
         }
     });
 } 
@@ -107,7 +81,7 @@ public class JCarrito extends javax.swing.JFrame {
                 TxtIva.setText("");
                 Txt_IncEnvio.setText("");
                 TxtTotal.setText("");
-                //      btnAnnadir.clearSelection();
+              //  btnAgregar.clearSelection();
 
             }
 
@@ -172,7 +146,7 @@ public class JCarrito extends javax.swing.JFrame {
         Txt_IncEnvio = new javax.swing.JTextField();
         TxtTotal = new javax.swing.JTextField();
         jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtPagar = new javax.swing.JTextField();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -267,9 +241,9 @@ public class JCarrito extends javax.swing.JFrame {
             }
         });
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        txtPagar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                txtPagarActionPerformed(evt);
             }
         });
 
@@ -280,6 +254,7 @@ public class JCarrito extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -298,18 +273,17 @@ public class JCarrito extends javax.swing.JFrame {
                                         .addGap(120, 120, 120)
                                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 72, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jS_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jScrollPane1))
+                                        .addComponent(txtPagar, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jS_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(46, 46, 46)
+                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(0, 72, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -317,11 +291,12 @@ public class JCarrito extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jL_CarritoTitulo)
-                .addGap(27, 27, 27)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(cboProductos)
-                    .addComponent(jS_Cantidad)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cboProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addComponent(jS_Cantidad))
                     .addComponent(lblDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -330,7 +305,7 @@ public class JCarrito extends javax.swing.JFrame {
                     .addComponent(TxtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtValorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPagar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -387,29 +362,52 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_TxtValorIncEnvioActionPerformed
 
     private void TxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorTotalActionPerformed
-
+       llenarTableModdel();
+       
         int suma = 0;
 
 // Obtener los valores numéricos de los campos de texto
         int valorIva = Integer.parseInt(TxtIva.getText());
         int valorIncEnvio = Integer.parseInt(Txt_IncEnvio.getText());
-
+ 
 // Realizar la suma
         suma = valorIva + valorIncEnvio;
 
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtValorTotalActionPerformed
 
+             
+
+    
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\anadir-al-carrito.png");
         btnAgregar.setIcon(icono);
 
+
+    llenarTableModdel();
+    }
+
+private void llenarTableModdel(){
+    
+    
         String comboBoxValue = cboProductos.getSelectedItem().toString();
-        int jS_Cantidad = (int) this.jS_Cantidad.getValue();
-
+ //       int jS_Cantidad = (int) this.jS_Cantidad.getValue();
+  int selectedProductIndex = cboProductos.getSelectedIndex();
+        int cantidad = (int) this.jS_Cantidad.getValue();
+  //      int selectedProductIndex = 0;
+    
+       if (selectedProductIndex != -1 && cantidad > 0) {
+        Productos selectedProduct = listaProductos.get(selectedProductIndex); // Obtener el producto seleccionado
+        double precio = selectedProduct.getPrecio();
+        
+        double subtotal = precio * cantidad;
+        
         DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
-        model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(), 2});
-
+        model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(),subtotal});
+        
+        }
+        
+        selectedProductIndex = 0;
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -421,9 +419,9 @@ public class JCarrito extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField1ActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void txtPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPagarActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_txtPagarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -476,9 +474,9 @@ public class JCarrito extends javax.swing.JFrame {
     private javax.swing.JSpinner jS_Cantidad;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JLabel lblDisponible;
     private javax.swing.JTable tblCarrito;
+    private javax.swing.JTextField txtPagar;
     private javax.swing.JTextField txtValorPrecio;
     // End of variables declaration//GEN-END:variables
 }
