@@ -4,6 +4,8 @@
  */
 package Display;
 
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author 50683
@@ -15,6 +17,7 @@ public class JAdmin extends javax.swing.JFrame {
      */
     public JAdmin() {
         initComponents();
+        setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
     }
 
     /**

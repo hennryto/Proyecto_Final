@@ -26,6 +26,7 @@ public class JUsuarios extends javax.swing.JFrame {
         btnGr.add(rbAdminstrador);
         btnGr.add(rbEstadandar);
         cargarTabla();
+        setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
                 
   
     }

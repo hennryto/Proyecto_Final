@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import javax.swing.ButtonGroup;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -27,6 +28,7 @@ public class JProductos extends javax.swing.JFrame {
         txtId.setVisible(false);
         btnGr = new ButtonGroup();
         cargarTabla();
+        setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
         
     }
 
@@ -311,13 +313,14 @@ public class JProductos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
- 
+        JAdmin mainFrame = new JAdmin();
+        mainFrame.setVisible(true);
 
-        
+
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        JAdmin mainFrame =new JAdmin();
+        JAdmin mainFrame = new JAdmin();
         mainFrame.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 

@@ -37,6 +37,7 @@ public class JCarrito extends javax.swing.JFrame {
         cargarTablaCarrito();
         ButtonGroup btnAnnadir;
         btnAnnadir = new ButtonGroup();
+        setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
        
 
     }

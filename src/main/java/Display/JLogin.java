@@ -32,11 +32,15 @@ public class JLogin extends javax.swing.JFrame {
     public JLogin() {
    
         initComponents();
+        
 
-    ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\key.png");
-    jLabel2.setIcon(icono);
+    ImageIcon icono2 = new ImageIcon("src\\main\\java\\Imagenes\\key.png");
+    jLabel2.setIcon(icono2);
     ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
     jLabel1.setIcon(icono1);
+    setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
+   
+   
     
     
  
@@ -111,6 +115,11 @@ public class JLogin extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Salir");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 109, 38));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 390));
@@ -174,6 +183,10 @@ public class JLogin extends javax.swing.JFrame {
         }
        
     }//GEN-LAST:event_txtLoginPasswordKeyTyped
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+      System.exit(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
