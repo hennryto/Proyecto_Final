@@ -34,16 +34,14 @@ public class JLogin extends javax.swing.JFrame {
         initComponents();
         
 
-    ImageIcon icono2 = new ImageIcon("src\\main\\java\\Imagenes\\key.png");
-    jLabel2.setIcon(icono2);
-    ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
-    jLabel1.setIcon(icono1);
-    setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
-   
-   
-    
-    
- 
+        ImageIcon icono2 = new ImageIcon("src\\main\\java\\Imagenes\\key.png");
+        jLabel2.setIcon(icono2);
+        ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
+        jLabel1.setIcon(icono1);
+        setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
+        SetImageLabel(lblGif, "src\\main\\java\\Imagenes\\tienda1.gif");
+
+
 
 
     }
@@ -65,6 +63,7 @@ public class JLogin extends javax.swing.JFrame {
         txtLoginPassword = new javax.swing.JPasswordField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        lblGif = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tienda");
@@ -76,7 +75,6 @@ public class JLogin extends javax.swing.JFrame {
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(102, 153, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Login", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -111,7 +109,7 @@ public class JLogin extends javax.swing.JFrame {
                 jButton1ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 230, 90, 40));
+        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 90, 40));
 
         jButton2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jButton2.setText("Salir");
@@ -120,7 +118,8 @@ public class JLogin extends javax.swing.JFrame {
                 jButton2ActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 230, 109, 38));
+        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 200, 109, 38));
+        jPanel1.add(lblGif, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 250, 170, 130));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 390));
 
@@ -162,7 +161,13 @@ public class JLogin extends javax.swing.JFrame {
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private static void SetImageLabel(JLabel lblGif, String root ){
+        ImageIcon image =new ImageIcon(root);
+        Icon icon = new ImageIcon(image.getImage().getScaledInstance(lblGif.getWidth(), lblGif.getHeight(), Image.SCALE_DEFAULT));
+        lblGif.setIcon(icon);
+        
     
+    }
     
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
      this.requestFocusInWindow();
@@ -236,6 +241,7 @@ public class JLogin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblGif;
     private javax.swing.JPasswordField txtLoginPassword;
     private javax.swing.JTextField txtLoginUsuario;
     // End of variables declaration//GEN-END:variables
