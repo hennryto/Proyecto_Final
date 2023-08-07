@@ -172,6 +172,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtValorPrecio">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtValorPrecioActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="TxtValorIva">
           <Events>
@@ -269,6 +272,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="ancestorAdded" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="tblCarritoAncestorAdded"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

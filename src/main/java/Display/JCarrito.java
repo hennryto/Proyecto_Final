@@ -8,6 +8,7 @@ import Clases.Carrito;
 import Clases.Conexion;
 import Clases.Productos;
 import Data.DataProductos;
+import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.Connection;
@@ -45,86 +46,84 @@ public class JCarrito extends javax.swing.JFrame {
     }
 
     private ArrayList<Productos> listaProductos;
-   private void llenarProductos() {
- 
-       
-    DataProductos dtProductos = new DataProductos();
-    listaProductos = dtProductos.getProductos();  // Inicializar la listaProductos
 
-    cboProductos.removeAllItems();
+    private void llenarProductos() {
 
-    for (int i = 0; i < listaProductos.size(); i++) {
-        cboProductos.addItem(listaProductos.get(i).getDescripcion());
+        DataProductos dtProductos = new DataProductos();
+        listaProductos = dtProductos.getProductos();  // Inicializar la listaProductos
+
+        cboProductos.removeAllItems();
+
+        for (int i = 0; i < listaProductos.size(); i++) {
+            cboProductos.addItem(listaProductos.get(i).getDescripcion());
+        }
+
+        cboProductos.addItemListener(new ItemListener() {
+            public void itemStateChanged(ItemEvent e) {
+
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    int selectedProductIndex = cboProductos.getSelectedIndex();
+                    if (selectedProductIndex != -1) {
+                        int cantidad = (int) listaProductos.get(selectedProductIndex).getInventario();
+                        lblDisponible.setText(cantidad + "");
+                    }
+                }
+
+            }
+        });
     }
 
-    cboProductos.addItemListener(new ItemListener() {
-        public void itemStateChanged(ItemEvent e) {
-           
+    public void limpiar() {
+        cboProductos.getSelectedIndex();
+        lblDisponible.getText();
+        TxtPrecio.setText("");
+        TxtIva.setText("");
+        Txt_IncEnvio.setText("");
+        TxtTotal.setText("");
+        //  btnAgregar.clearSelection();
 
-            if (e.getStateChange() == ItemEvent.SELECTED) {
-                int selectedProductIndex = cboProductos.getSelectedIndex();
-                if (selectedProductIndex != -1) {
-                    int cantidad = (int) listaProductos.get(selectedProductIndex).getInventario();
-                    lblDisponible.setText(cantidad + "");
-                }
-            }
- 
+    }
+
+    private void cargarTablaCarrito() {
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblCarrito.getModel();
+        modeloTabla.setRowCount(0);
+        PreparedStatement ps;
+        ResultSet rs;
+        ResultSetMetaData rsmd;
+        int column;
+        int[] width = {10, 40, 50, 60, 80, 90};
+        for (int i = 0; i < tblCarrito.getColumnCount(); i++) {
+            tblCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
         }
-    });
-} 
-    
-    
-            public void limpiar() {
-                cboProductos.getSelectedIndex();
-                lblDisponible.getText();
-                TxtPrecio.setText("");
-                TxtIva.setText("");
-                Txt_IncEnvio.setText("");
-                TxtTotal.setText("");
-              //  btnAgregar.clearSelection();
+        try {
+            Connection connection = Conexion.getConexion();
+            ps = connection.prepareStatement("SELECT Descripcion,Cantidad,Precio,Iva, Envio, Total FROM Carrito");
+            rs = ps.executeQuery();
+            rsmd = rs.getMetaData();
+            column = rsmd.getColumnCount();
+            while (rs.next()) {
+                Object[] row = new Object[column];
+                for (int index = 0; index < column; index++) {
+                    row[index] = rs.getObject(index + 1);
+
+                }
+                modeloTabla.addRow(row);
 
             }
 
-            private void cargarTablaCarrito() {
-                DefaultTableModel modeloTabla = (DefaultTableModel) tblCarrito.getModel();
-                modeloTabla.setRowCount(0);
-                PreparedStatement ps;
-                ResultSet rs;
-                ResultSetMetaData rsmd;
-                int column;
-                int[] width = {10, 40, 50, 60, 80, 90};
-                for (int i = 0; i < tblCarrito.getColumnCount(); i++) {
-                    tblCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
-                }
-                try {
-                    Connection connection = Conexion.getConexion();
-                    ps = connection.prepareStatement("SELECT Descripcion,Cantidad,Precio,Iva, Envio, Total FROM Carrito");
-                    rs = ps.executeQuery();
-                    rsmd = rs.getMetaData();
-                    column = rsmd.getColumnCount();
-                    while (rs.next()) {
-                        Object[] row = new Object[column];
-                        for (int index = 0; index < column; index++) {
-                            row[index] = rs.getObject(index + 1);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
 
-                        }
-                        modeloTabla.addRow(row);
+        }
 
-                    }
+    }
 
-                } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(null, e.toString());
-
-                }
-
-            }
-
-            /**
-             * This method is called from within the constructor to initialize
-             * the form. WARNING: Do NOT modify this code. The content of this
-             * method is always regenerated by the Form Editor.
-             */
-            @SuppressWarnings("unchecked")
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -164,6 +163,12 @@ public class JCarrito extends javax.swing.JFrame {
 
         jL_CarritoTitulo.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jL_CarritoTitulo.setText("Carrito de compras");
+
+        txtValorPrecio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtValorPrecioActionPerformed(evt);
+            }
+        });
 
         TxtValorIva.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -218,6 +223,15 @@ public class JCarrito extends javax.swing.JFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        tblCarrito.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                tblCarritoAncestorAdded(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jScrollPane1.setViewportView(tblCarrito);
@@ -362,52 +376,50 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_TxtValorIncEnvioActionPerformed
 
     private void TxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorTotalActionPerformed
-       llenarTableModdel();
-       
+        llenarTableModdel();
+
         int suma = 0;
 
 // Obtener los valores numéricos de los campos de texto
         int valorIva = Integer.parseInt(TxtIva.getText());
         int valorIncEnvio = Integer.parseInt(Txt_IncEnvio.getText());
- 
+
 // Realizar la suma
         suma = valorIva + valorIncEnvio;
 
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtValorTotalActionPerformed
 
-             
 
-    
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\anadir-al-carrito.png");
         btnAgregar.setIcon(icono);
 
-
-    llenarTableModdel();
+        llenarTableModdel();
     }
 
-private void llenarTableModdel(){
-    
-    
+    private void llenarTableModdel() {
+
         String comboBoxValue = cboProductos.getSelectedItem().toString();
- //       int jS_Cantidad = (int) this.jS_Cantidad.getValue();
-  int selectedProductIndex = cboProductos.getSelectedIndex();
+        int selectedProductIndex = cboProductos.getSelectedIndex();
         int cantidad = (int) this.jS_Cantidad.getValue();
-  //      int selectedProductIndex = 0;
-    
-       if (selectedProductIndex != -1 && cantidad > 0) {
-        Productos selectedProduct = listaProductos.get(selectedProductIndex); // Obtener el producto seleccionado
-        double precio = selectedProduct.getPrecio();
-        
-        double subtotal = precio * cantidad;
-        
-        DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
-        model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(),subtotal});
-        
+
+        if (selectedProductIndex != -1 && cantidad > 0) {
+            Productos selectedProduct = listaProductos.get(selectedProductIndex); // Obtener el producto seleccionado
+            double precio = selectedProduct.getPrecio();
+
+            double subtotal = precio * cantidad;
+
+            DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
+            model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(), subtotal});
+       
+      
+            
         }
         
-        selectedProductIndex = 0;
+        
+    
+  //      selectedProductIndex = 0;
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -416,12 +428,36 @@ private void llenarTableModdel(){
     }//GEN-LAST:event_formWindowClosed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void txtPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtPagarActionPerformed
-        // TODO add your handling code here:
+
+        
     }//GEN-LAST:event_txtPagarActionPerformed
+
+    private void txtValorPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorPrecioActionPerformed
+
+    DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
+
+    double total = 0;
+    for (int row = 0; row < model.getRowCount(); row++) {
+        int cantidad = (int) model.getValueAt(row, 2); // Obtener la cantidad
+        double precio = (double) model.getValueAt(row, 3); // Obtener el precio
+        double subtotal = cantidad * precio; // Calcular el subtotal
+        total += subtotal; // Acumular al total
+    }
+
+    txtValorPrecio.setText(String.valueOf(total));
+    
+    
+    
+  // TODO add your handling code here:
+    }//GEN-LAST:event_txtValorPrecioActionPerformed
+
+    private void tblCarritoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblCarritoAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tblCarritoAncestorAdded
 
     /**
      * @param args the command line arguments
@@ -479,4 +515,8 @@ private void llenarTableModdel(){
     private javax.swing.JTextField txtPagar;
     private javax.swing.JTextField txtValorPrecio;
     // End of variables declaration//GEN-END:variables
+
+    private ActionEvent setText(String valueOf) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
