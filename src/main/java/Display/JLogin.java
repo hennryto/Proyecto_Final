@@ -38,6 +38,7 @@ public class JLogin extends javax.swing.JFrame {
     ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
     jLabel1.setIcon(icono1);
     
+    
  
 
 
@@ -69,11 +70,6 @@ public class JLogin extends javax.swing.JFrame {
                 formMouseClicked(evt);
             }
         });
-        addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                formKeyPressed(evt);
-            }
-        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(102, 153, 255));
@@ -85,6 +81,11 @@ public class JLogin extends javax.swing.JFrame {
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(29, 53, 120, 60));
 
         txtLoginUsuario.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtLoginUsuario.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLoginUsuarioKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtLoginUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 70, 150, -1));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -92,6 +93,11 @@ public class JLogin extends javax.swing.JFrame {
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(19, 124, 120, 40));
 
         txtLoginPassword.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txtLoginPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtLoginPasswordKeyTyped(evt);
+            }
+        });
         jPanel1.add(txtLoginPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 130, 150, -1));
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -144,24 +150,30 @@ public class JLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.toString());
         }
         Connection connection = Conexion.getConexion();
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-      
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            jButton1ActionPerformed(null);
-   
-//int enterKey = java.awt.event.KeyEvent.VK_ENTER;
-        //if (evt.getKeyCode() == enterKey) {
-        //jButton1ActionPerformed(null);
-
-    }
-        
-    }//GEN-LAST:event_formKeyPressed
-
+    
+    
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
      this.requestFocusInWindow();
     }//GEN-LAST:event_formMouseClicked
+
+    private void txtLoginUsuarioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginUsuarioKeyTyped
+        char keyPress=evt.getKeyChar();
+        if (keyPress==KeyEvent.VK_ENTER){
+        jButton1.doClick();
+        }
+        
+    }//GEN-LAST:event_txtLoginUsuarioKeyTyped
+
+    private void txtLoginPasswordKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtLoginPasswordKeyTyped
+       char keyPress=evt.getKeyChar();
+       if (keyPress==KeyEvent.VK_ENTER){
+        jButton1.doClick();
+        }
+       
+    }//GEN-LAST:event_txtLoginPasswordKeyTyped
 
     /**
      * @param args the command line arguments

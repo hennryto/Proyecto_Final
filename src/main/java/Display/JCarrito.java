@@ -66,7 +66,8 @@ public class JCarrito extends javax.swing.JFrame {
     }
 
     private void cargarTablaCarrito() {
-        DefaultTableModel modeloTabla = (DefaultTableModel) tblCarrito.getModel();
+
+       DefaultTableModel modeloTabla = (DefaultTableModel) tblCarrito.getModel();
         modeloTabla.setRowCount(0);
         PreparedStatement ps;
         ResultSet rs;
@@ -74,7 +75,7 @@ public class JCarrito extends javax.swing.JFrame {
         int column;
         int[] width = {10, 40, 50, 60, 80, 90};
         for (int i = 0; i < tblCarrito.getColumnCount(); i++) {
-            tblCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
+            //tblCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
         }
         try {
             Connection connection = Conexion.getConexion();
@@ -123,7 +124,7 @@ public class JCarrito extends javax.swing.JFrame {
         TxtValorIncEnvio = new javax.swing.JTextField();
         TxtValorTotal = new javax.swing.JTextField();
         btnAgregar = new javax.swing.JButton();
-        lblDisponible = new javax.swing.JLabel();
+        lblDisponible = new javax.swing.JTextField();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -224,8 +225,8 @@ public class JCarrito extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(jS_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)))
+                                        .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(17, 17, 17)))
                                 .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
@@ -253,7 +254,7 @@ public class JCarrito extends javax.swing.JFrame {
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(cboProductos)
                     .addComponent(jS_Cantidad)
-                    .addComponent(lblDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblDisponible))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
@@ -371,7 +372,7 @@ public class JCarrito extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSpinner jS_Cantidad;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblDisponible;
+    private javax.swing.JTextField lblDisponible;
     private javax.swing.JTable tblCarrito;
     private javax.swing.JTextField txtValorPrecio;
     // End of variables declaration//GEN-END:variables
