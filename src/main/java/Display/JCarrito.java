@@ -438,8 +438,8 @@ public class JCarrito extends javax.swing.JFrame {
 
     double sumatotal = 0;
     for (int row = 0; row < model.getRowCount(); row++) {
-        int cantidad = (int) model.getValueAt(row, 2); // Obtener la cantidad
-        double precio = (double) model.getValueAt(row, 3); // Obtener el precio
+        int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
+        double precio = (double) model.getValueAt(row, 2); // Obtener el precio
         double subtotal = cantidad * precio; // Calcular el subtotal
         sumatotal += subtotal; // Acumular al total
     }
