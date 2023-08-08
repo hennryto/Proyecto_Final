@@ -376,8 +376,6 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_TxtValorIncEnvioActionPerformed
 
     private void TxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorTotalActionPerformed
-        llenarTableModdel();
-
         int suma = 0;
 
 // Obtener los valores numéricos de los campos de texto
@@ -395,11 +393,7 @@ public class JCarrito extends javax.swing.JFrame {
         ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\anadir-al-carrito.png");
         btnAgregar.setIcon(icono);
 
-        llenarTableModdel();
-    }
-
-    private void llenarTableModdel() {
-
+  
         String comboBoxValue = cboProductos.getSelectedItem().toString();
         int selectedProductIndex = cboProductos.getSelectedIndex();
         int cantidad = (int) this.jS_Cantidad.getValue();
@@ -414,9 +408,9 @@ public class JCarrito extends javax.swing.JFrame {
             model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(), subtotal});
        
       
-            
+            calcularTotal(); // Llamar al método para recalcular el total      
+      
         }
-        
         
     
   //      selectedProductIndex = 0;
@@ -437,22 +431,22 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_txtPagarActionPerformed
 
     private void txtValorPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorPrecioActionPerformed
-
+    calcularTotal(); 
+    }
+    private void calcularTotal() {
     DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
 
-    double total = 0;
+    double sumatotal = 0;
     for (int row = 0; row < model.getRowCount(); row++) {
         int cantidad = (int) model.getValueAt(row, 2); // Obtener la cantidad
         double precio = (double) model.getValueAt(row, 3); // Obtener el precio
         double subtotal = cantidad * precio; // Calcular el subtotal
-        total += subtotal; // Acumular al total
+        sumatotal += subtotal; // Acumular al total
     }
 
-    txtValorPrecio.setText(String.valueOf(total));
+    txtValorPrecio.setText(String.valueOf(sumatotal));
     
-    
-    
-  // TODO add your handling code here:
+       
     }//GEN-LAST:event_txtValorPrecioActionPerformed
 
     private void tblCarritoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblCarritoAncestorAdded
