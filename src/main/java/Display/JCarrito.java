@@ -8,6 +8,8 @@ import Clases.Carrito;
 import Clases.Conexion;
 import Clases.Productos;
 import Data.DataProductos;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,6 +40,11 @@ public class JCarrito extends javax.swing.JFrame {
         ButtonGroup btnAnnadir;
         btnAnnadir = new ButtonGroup();
         setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
+        Dimension displayCarrito = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = displayCarrito.height;
+        int width = displayCarrito.width;
+        setLocation((width - getWidth()) / 2, (height - getHeight()) / 2);
+        
        
 
     }

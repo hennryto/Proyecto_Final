@@ -7,8 +7,10 @@ package Display;
 import Clases.Conexion;
 import Clases.Usuarios;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.net.URL;
 import java.sql.Connection;
@@ -40,6 +42,10 @@ public class JLogin extends javax.swing.JFrame {
         jLabel1.setIcon(icono1);
         setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
         SetImageLabel(lblGif, "src\\main\\java\\Imagenes\\tienda1.gif");
+        Dimension displayLogin = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = displayLogin.height;
+        int width = displayLogin.width;
+        setLocation((width - getWidth()) / 2, (height - getHeight()) / 2);
 
 
 

@@ -6,6 +6,8 @@ package Display;
 
 import Clases.Conexion;
 import Clases.Productos;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,6 +31,10 @@ public class JProductos extends javax.swing.JFrame {
         btnGr = new ButtonGroup();
         cargarTabla();
         setIconImage(new ImageIcon("src\\main\\java\\Imagenes\\tienda.png").getImage());
+        Dimension displayProductos = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = displayProductos.height;
+        int width = displayProductos.width;
+        setLocation((width - getWidth()) / 2, (height - getHeight()) / 2);
         
     }
 
@@ -55,6 +61,7 @@ public class JProductos extends javax.swing.JFrame {
         tblProductos = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Registro de Productos");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosed(java.awt.event.WindowEvent evt) {
                 formWindowClosed(evt);
@@ -194,6 +201,11 @@ public class JProductos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblProductos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -324,7 +336,29 @@ public class JProductos extends javax.swing.JFrame {
         mainFrame.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
-   
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        try {
+            int row = tblProductos.getSelectedRow();
+            int id = Integer.parseInt(tblProductos.getValueAt(row, 0).toString());
+            PreparedStatement ps;
+            ResultSet rs;
+            Connection connection = Conexion.getConexion();
+            ps = connection.prepareStatement("SELECT Tipo,Descripcion,Precio,Inventario FROM Productos WHERE Id=?");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                txtId.setText(String.valueOf(id));
+                txtTipo.setText(rs.getString("Tipo"));
+                txtDescripcion.setText(rs.getString("Descripcion"));
+                txtPrecio.setText(rs.getString("Precio"));
+                txtInventario.setText(rs.getString("Inventario"));
+            }
+
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+    }//GEN-LAST:event_tblProductosMouseClicked
+
   public void limpiar(){
   txtId.setText("");
   txtTipo.setText("");
