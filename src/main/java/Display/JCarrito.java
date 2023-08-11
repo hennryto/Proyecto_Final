@@ -27,7 +27,6 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-
 /**
  *
  * @author Usuario
@@ -86,19 +85,19 @@ public class JCarrito extends javax.swing.JFrame {
     }
 
     private void cargarTablaCarrito() {
-        DefaultTableModel modeloTabla = (DefaultTableModel) tblCarrito.getModel();
+         DefaultTableModel modeloTabla = (DefaultTableModel) JtableCarrito.getModel();
         modeloTabla.setRowCount(0);
         PreparedStatement ps;
         ResultSet rs;
         ResultSetMetaData rsmd;
         int column;
-        int[] width = {10, 40, 50, 60, 80, 90};
-        for (int i = 0; i < tblCarrito.getColumnCount(); i++) {
-            tblCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
+        int[] width = {10, 40, 50, 20, 10};
+        for (int i = 0; i < JtableCarrito.getColumnCount(); i++) {
+            JtableCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
         }
         try {
             Connection connection = Conexion.getConexion();
-            ps = connection.prepareStatement("SELECT Descripcion,Cantidad,Precio,Iva, Envio, Total FROM Carrito");
+            ps = connection.prepareStatement("SELECT Descripcion,Cantidad,Precio,Iva,Envio,Total FROM Carrito");
             rs = ps.executeQuery();
             rsmd = rs.getMetaData();
             column = rsmd.getColumnCount();
@@ -117,6 +116,7 @@ public class JCarrito extends javax.swing.JFrame {
 
         }
 
+
     }
 
     /**
@@ -129,6 +129,10 @@ public class JCarrito extends javax.swing.JFrame {
     private void initComponents() {
 
         jPasswordField1 = new javax.swing.JPasswordField();
+        buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
+        buttonGroup3 = new javax.swing.ButtonGroup();
+        buttonGroup4 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jL_CarritoTitulo = new javax.swing.JLabel();
         txtValorPrecio = new javax.swing.JTextField();
@@ -138,7 +142,7 @@ public class JCarrito extends javax.swing.JFrame {
         jS_Cantidad = new javax.swing.JSpinner();
         btnAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblCarrito = new javax.swing.JTable();
+        JtableCarrito = new javax.swing.JTable();
         lblDisponible = new javax.swing.JLabel();
         TxtPrecio = new javax.swing.JTextField();
         TxtIva = new javax.swing.JTextField();
@@ -146,8 +150,7 @@ public class JCarrito extends javax.swing.JFrame {
         TxtTotal = new javax.swing.JTextField();
         btnPagar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
-        rbSi = new javax.swing.JRadioButton();
-        rbNo = new javax.swing.JRadioButton();
+        CheckBxEnvio = new javax.swing.JCheckBox();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -202,7 +205,7 @@ public class JCarrito extends javax.swing.JFrame {
             }
         });
 
-        tblCarrito.setModel(new javax.swing.table.DefaultTableModel(
+        JtableCarrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -221,16 +224,16 @@ public class JCarrito extends javax.swing.JFrame {
                 return types [columnIndex];
             }
         });
-        tblCarrito.addAncestorListener(new javax.swing.event.AncestorListener() {
+        JtableCarrito.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
-                tblCarritoAncestorAdded(evt);
+                JtableCarritoAncestorAdded(evt);
             }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
-        jScrollPane1.setViewportView(tblCarrito);
+        jScrollPane1.setViewportView(JtableCarrito);
 
         lblDisponible.setBackground(new java.awt.Color(255, 255, 255));
         lblDisponible.setForeground(new java.awt.Color(255, 255, 255));
@@ -243,17 +246,30 @@ public class JCarrito extends javax.swing.JFrame {
         Txt_IncEnvio.setText("Incluir Envio");
 
         TxtTotal.setText("Total");
+        TxtTotal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TxtTotalMouseClicked(evt);
+            }
+        });
 
         btnPagar.setText("Pagar");
+        btnPagar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnPagarMouseClicked(evt);
+            }
+        });
+        btnPagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPagarActionPerformed(evt);
+            }
+        });
 
         btnImprimir.setText("Imprimir Factura");
 
-        rbSi.setText("Si");
-
-        rbNo.setText("No");
-        rbNo.addActionListener(new java.awt.event.ActionListener() {
+        CheckBxEnvio.setText("Incluir Envio");
+        CheckBxEnvio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rbNoActionPerformed(evt);
+                CheckBxEnvioActionPerformed(evt);
             }
         });
 
@@ -284,10 +300,7 @@ public class JCarrito extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(rbSi)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(rbNo))))
+                                    .addComponent(CheckBxEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,13 +340,12 @@ public class JCarrito extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Txt_IncEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rbSi)
-                    .addComponent(rbNo))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(CheckBxEnvio))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(189, 189, 189))
+                .addGap(183, 183, 183))
         );
 
         lblDisponible.getAccessibleContext().setAccessibleParent(lblDisponible);
@@ -362,49 +374,61 @@ public class JCarrito extends javax.swing.JFrame {
 
     private void TxtValorIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorIvaActionPerformed
 //DEBO AGREGAR EL VALOR DEL IVA
-       masIva(); 
+        masIva();
+        actualizarResultado();
     }
-    private void masIva() {
-    DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
 
-    double sumatotalIva = 0;
-    for (int row = 0; row < model.getRowCount(); row++) {
-        int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
-        double precio = (double) model.getValueAt(row, 2); // Obtener el precio
-        double subtotalIva =  (precio *0.20); // Calcular el subtotal
-        sumatotalIva += subtotalIva; // Acumular al total
-    }
+    private void masIva() {
+        DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
+
+        double sumatotalIva = 0;
+        for (int row = 0; row < model.getRowCount(); row++) {
+            int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
+            double precio = (double) model.getValueAt(row, 2); // Obtener el precio
+            double subtotalIva = (precio * 0.20); // Calcular el subtotal
+            sumatotalIva += subtotalIva; // Acumular al total
+        }
 
         TxtValorIva.setText(String.valueOf(sumatotalIva));
-          
+
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtValorIvaActionPerformed
 
-    private void TxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorTotalActionPerformed
-        int valorTotal=0;
-     
-    }
-    private void valorTotal() {
-    DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
 
-    double sumatotalIva =0;
-    for (int row = 0; row < model.getRowCount(); row++) {
-        int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
-        double precio = (double) model.getValueAt(row, 2); // Obtener el precio
-        double valorTotal = precio + (precio * (0.20)) ; // Calcular el subtotal
-        sumatotalIva += valorTotal; // Acumular al total
-        
-                TxtValorTotal.setText(String.valueOf(sumatotalIva));
+    private void TxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorTotalActionPerformed
+        int valorTotal = 0;
+
     }
-            // TODO add your handling code here:
+
+    private void valorTotal() {
+     DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
+
+    double sumaTotal = 0;
+    for (int row = 0; row < model.getRowCount(); row++) {
+        double subtotal = (double) model.getValueAt(row, 2);
+        sumaTotal += subtotal;
+    }
+
+    double iva = Double.parseDouble(TxtValorIva.getText());
+    double totalSinEnvio = sumaTotal + iva;
+
+    double totalConEnvio = totalSinEnvio;
+    if (CheckBxEnvio.isSelected()) {
+        totalConEnvio *= 1.3; // Agregar 30% por el envío
+    }
+
+    TxtValorTotal.setText(String.valueOf(totalConEnvio));
     }//GEN-LAST:event_TxtValorTotalActionPerformed
 
-
+// ESTE METODO ME AYUDA A MOSTRAR LA IMAGEN DEL ICONO
+// SELECCIONA EL PRODUCTO Y LA CABNTIDAD DE ACUERDO A ELLO, MUESTRA UN RESULTADO Y LO MULTIPLICA
+//SI EL CLIENTE MODIFICA EL PRODUCTO, ESTO CAMBIA EL PRECIO
+    
+    
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\anadir-al-carrito.png");
         btnAgregar.setIcon(icono);
 
-  
         String comboBoxValue = cboProductos.getSelectedItem().toString();
         int selectedProductIndex = cboProductos.getSelectedIndex();
         int cantidad = (int) this.jS_Cantidad.getValue();
@@ -415,17 +439,16 @@ public class JCarrito extends javax.swing.JFrame {
 
             double subtotal = precio * cantidad;
 
-            DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
+            DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
             model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(), subtotal});
-       
-      
-            calcularTotal(); // Llamar al método para recalcular el total      
-                 masIva(); 
-                 valorTotal();
+
+            calcularPrecio(); // Llamar al método para recalcular el total      
+            masIva(); // Llama el metodo y actualiza para inclur el IVA
+            valorTotal(); // Muestra el valor total, incluyendo el IVA 
+
         }
-        
-    
-  //      selectedProductIndex = 0;
+ 
+
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
@@ -434,46 +457,92 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowClosed
 
     private void txtValorPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValorPrecioActionPerformed
-    calcularTotal(); 
-    }
-    private void calcularTotal() {
-    DefaultTableModel model = (DefaultTableModel) tblCarrito.getModel();
-
-    double sumatotal = 0;
-    for (int row = 0; row < model.getRowCount(); row++) {
-        int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
-        double precio = (double) model.getValueAt(row, 2); // Obtener el precio
-        double subtotal =  precio; // Calcular el subtotal
-        sumatotal += subtotal; // Acumular al total
+        calcularPrecio();
     }
 
-    
-    if (rbSi.isSelected()) {  // Si el RadioButton de incluir envío está seleccionado
-        sumatotal += calcularCostoEnvio(sumatotal);
-    }
-    txtValorPrecio.setText(String.valueOf(sumatotal));
-    
-       
+    private void calcularPrecio() {
+        DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
+
+        double sumatotal = 0; //Inicializo el valor
+        for (int row = 0; row < model.getRowCount(); row++) {
+            int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
+            double precio = (double) model.getValueAt(row, 2); // Obtener el precio
+            double subtotal = precio; // Calcular el subtotal
+            sumatotal += subtotal; // Acumular al total
+  
+        }
+
+
+        txtValorPrecio.setText(String.valueOf(sumatotal)); // Brinda el nuevo valor del precio
+
+
     }//GEN-LAST:event_txtValorPrecioActionPerformed
 
-    
-    private double calcularCostoEnvio(double total) {
 
-    return total * 0.3;  //  30% del total
-    
+    private void JtableCarritoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_JtableCarritoAncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_JtableCarritoAncestorAdded
+
+    private void CheckBxEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBxEnvioActionPerformed
+        actualizarResultado();
     }
-    private void tblCarritoAncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_tblCarritoAncestorAdded
+
+    private double actualizarResultado() {
+
+        double total = Double.parseDouble(TxtValorTotal.getText());
+        double resultado;
+
+        if (CheckBxEnvio.isSelected()) {
+            resultado = total * 0.3; // Agregar 30% si el checkbox está seleccionado
+
+        } else {
+            resultado = total;
+        }
+
+        return resultado;
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_CheckBxEnvioActionPerformed
+
+    private void TxtTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TxtTotalMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_tblCarritoAncestorAdded
+    }//GEN-LAST:event_TxtTotalMouseClicked
 
-    private void rbNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbNoActionPerformed
+    private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
+       
 
 
-
-
-    
         // TODO add your handling code here:
-    }//GEN-LAST:event_rbNoActionPerformed
+    }//GEN-LAST:event_btnPagarActionPerformed
+
+    private void btnPagarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarMouseClicked
+Carrito carrito = new Carrito();
+    carrito.setDescripcion(cboProductos.getSelectedItem().toString());
+    carrito.setCantidad((int) jS_Cantidad.getValue());
+    carrito.setPrecio(Double.parseDouble(txtValorPrecio.getText()));       
+    carrito.setIva(Double.parseDouble(TxtValorIva.getText()));
+    carrito.setEnvio(CheckBxEnvio.isSelected() ? 1 : 0); // Cambiado para usar 1 si el checkbox está marcado, 0 si no lo está
+    carrito.setTotal(Double.parseDouble(TxtValorTotal.getText()));        
+    try {
+        Connection connection = Conexion.getConexion();
+        PreparedStatement ps = connection.prepareStatement("INSERT INTO Carrito(Descripcion,Cantidad,Precio,Iva,Envio,Total) VALUES(?,?,?,?,?,?)");
+        ps.setString(1, carrito.getDescripcion());
+        ps.setInt(2, carrito.getCantidad());
+        ps.setDouble(3, carrito.getPrecio());
+        ps.setDouble(4, carrito.getIva());
+        ps.setDouble(5, carrito.getEnvio());
+        ps.setDouble(6, carrito.getTotal());
+        ps.executeUpdate();
+        JOptionPane.showMessageDialog(null, "Compra realizada exitosamente ");
+        limpiar();
+        cargarTablaCarrito();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, e.toString());
+    }
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnPagarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -511,6 +580,8 @@ public class JCarrito extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox CheckBxEnvio;
+    private javax.swing.JTable JtableCarrito;
     private javax.swing.JTextField TxtIva;
     private javax.swing.JTextField TxtPrecio;
     private javax.swing.JTextField TxtTotal;
@@ -520,6 +591,10 @@ public class JCarrito extends javax.swing.JFrame {
     private javax.swing.JButton btnAgregar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnPagar;
+    private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.ButtonGroup buttonGroup3;
+    private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JComboBox<String> cboProductos;
     private javax.swing.JLabel jL_CarritoTitulo;
     private javax.swing.JPanel jPanel1;
@@ -527,9 +602,6 @@ public class JCarrito extends javax.swing.JFrame {
     private javax.swing.JSpinner jS_Cantidad;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDisponible;
-    private javax.swing.JRadioButton rbNo;
-    private javax.swing.JRadioButton rbSi;
-    private javax.swing.JTable tblCarrito;
     private javax.swing.JTextField txtValorPrecio;
     // End of variables declaration//GEN-END:variables
 
