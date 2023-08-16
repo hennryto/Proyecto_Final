@@ -72,7 +72,7 @@ public class Historial {
             if (carrito.getId() == carritoId) {
                 System.out.println("Detalle de la compra con ID " + carritoId + ":");
                 System.out.println("Fecha: " + carrito.getFecha());
-                System.out.println("Descripción: " + carrito.getDescripion());
+                System.out.println("Descripción: " + carrito.getDescripcion());
                 System.out.println("Cantidad: " + carrito.getCantidad());
                 System.out.println("Precio unitario: " + carrito.getPrecio());
                 System.out.println("IVA: " + carrito.getIva());
@@ -80,7 +80,7 @@ public class Historial {
                 System.out.println("Total: " + carrito.getTotal());
                 System.out.println("Productos en el carrito:");
                 for (Productos producto : carrito.getCarrito()) {
-                    System.out.println("- " + producto.getDescripcion() + ", Cantidad: " + producto.getCantidad());
+//                    System.out.println("- " + producto.getDescripcion() + ", Cantidad: " + producto.getCantidad());
                 }
                 return;
             }

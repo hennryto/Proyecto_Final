@@ -26,11 +26,11 @@ public class Carrito {
         this.id = id;
     }
 
-    public String getDescripion() {
+    public String getDescripcion() {
         return descripion;
     }
 
-    public void setDescripion(String descripion) {
+    public void setDescripcion(String descripion) {
         this.descripion = descripion;
     }
 
@@ -114,9 +114,6 @@ public class Carrito {
         this.descripion = descripion;
     }
 
-    public void setDescripcion(String toString) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 
 

@@ -6,11 +6,13 @@ package Data;
 
 import Clases.Conexion;
 import Clases.Productos;
+import Clases.Services.ProducInventoryService;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,15 +29,16 @@ public class DataProductos {
 
         try {
             stmt = connection.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM Productos");
+            rs = stmt.executeQuery("SELECT * FROM Products order by descripcion");
 
             while (rs.next()) {
                 Productos prod = new Productos();
-//                prod.setId(rs.getInt("id"));
+                prod.setId(rs.getInt("id"));
                 prod.setTipo(rs.getString("tipo"));
                 prod.setDescripcion(rs.getString("descripcion"));
                 prod.setPrecio(rs.getDouble("precio"));
-                prod.setInventario(rs.getInt("inventario"));
+                //TODO:
+                //prod.setInventario(rs.getInt("inventario"));
 //                prod.setCantidad(rs.getInt("cantidad"));
                
                 listaProductos.add(prod);

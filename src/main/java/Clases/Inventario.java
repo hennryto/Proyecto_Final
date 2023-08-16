@@ -39,19 +39,21 @@ public class Inventario {
     }
 
     // Método para obtener la cantidad total de productos en inventario
+    //TODO:
     public int obtenerCantidadTotal() {
         int cantidadTotal = 0;
         for (Productos producto : productos) {
-            cantidadTotal += producto.getInventario();
+            //cantidadTotal += producto.getInventario();
         }
         return cantidadTotal;
     }
 
     // Método para obtener el valor total del inventario
+    //TODO:
     public double obtenerValorTotal() {
         double valorTotal = 0;
         for (Productos producto : productos) {
-            valorTotal += producto.getInventario() * producto.getPrecio();
+            //valorTotal += producto.getInventario() * producto.getPrecio();
         }
         return valorTotal;
     }
@@ -68,7 +70,8 @@ public class Inventario {
             System.out.println("Tipo: " + producto.getTipo());
             System.out.println("Descripción: " + producto.getDescripcion());
             System.out.println("Precio: " + producto.getPrecio());
-            System.out.println("Inventario: " + producto.getInventario());
+            //TODO:
+            //System.out.println("Inventario: " + producto.getInventario());
             System.out.println("------------------------");
         }
     }

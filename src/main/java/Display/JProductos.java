@@ -6,11 +6,14 @@ package Display;
 
 import Clases.Conexion;
 import Clases.Productos;
+import Clases.Services.ProducInventoryService;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Map;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -21,13 +24,14 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JProductos extends javax.swing.JFrame {
 
-   ButtonGroup btnGr;
+    ButtonGroup btnGr;
+
     public JProductos() {
         initComponents();
         txtId.setVisible(false);
         btnGr = new ButtonGroup();
         cargarTabla();
-        
+
     }
 
     /**
@@ -65,7 +69,9 @@ public class JProductos extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(0, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Registrar Producto", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
-        txtInventario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Inventario", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        txtInventario.setToolTipText("");
+        txtInventario.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Cantidad", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+        txtInventario.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         txtInventario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtInventarioActionPerformed(evt);
@@ -119,26 +125,29 @@ public class JProductos extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(btnGuardar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnActualizar)
-                .addGap(68, 68, 68))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(113, 113, 113)
+                        .addComponent(btnCerrar))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(btnGuardar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnActualizar)
+                                .addGap(62, 62, 62))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(txtTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(113, 113, 113)
-                        .addComponent(btnCerrar)))
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtInventario, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 178, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -166,6 +175,8 @@ public class JProductos extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        txtInventario.getAccessibleContext().setAccessibleName("Cantidad");
+
         tblProductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
@@ -192,6 +203,11 @@ public class JProductos extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
+        tblProductos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblProductosMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblProductos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -199,22 +215,20 @@ public class JProductos extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
+                .addContainerGap(46, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(29, 29, 29))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(81, 81, 81))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 427, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(87, 87, 87))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -232,6 +246,8 @@ public class JProductos extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleName("Cantidad");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -256,83 +272,89 @@ public class JProductos extends javax.swing.JFrame {
         Productos producto = new Productos();
         producto.setTipo(txtTipo.getText());
         producto.setDescripcion(txtDescripcion.getText());
-        producto.setPrecio(Double.parseDouble(txtPrecio.getText()));
-        producto.setInventario(Integer.parseInt(txtInventario.getText()));
+        producto.setPrecio(Double.valueOf(txtPrecio.getText()));
+        int gen_key = 0;
         try {
             Connection connection = Conexion.getConexion();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO Productos(Tipo,Descripcion,Precio,Inventario)VALUES(?,?,?,?)");
-            ps.setString(1,producto.getTipo());
-            ps.setString(2,producto.getDescripcion());
-            ps.setDouble(3,producto.getPrecio());
-            ps.setInt(4,producto.getInventario());
-            ps.setInt(4,producto.getCantidad());
-            
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Registro guardado existosamente");
-            limpiar();
-            cargarTabla();
-        
-        }catch(SQLException e){
-            
-            JOptionPane.showMessageDialog(null,e.toString());
-     
-                 
-        }
-        
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO Products(Tipo,Descripcion,Precio)VALUES(?,?,?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, producto.getTipo());
+            ps.setString(2, producto.getDescripcion());
+            ps.setDouble(3, producto.getPrecio());
 
+            ps.executeUpdate();
+            ResultSet rs = ps.getGeneratedKeys();
+            if(rs.next())
+            {
+                gen_key = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+        }
+        ProducInventoryService inventoryService = new ProducInventoryService();
+        if (gen_key != 0) {
+            inventoryService.agregarProducto(gen_key, Integer.parseInt(txtInventario.getText()));
+        }
+        JOptionPane.showMessageDialog(null,"Registro guardado existosamente");
+        limpiar();
+        cargarTabla();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
-        int Id = Integer.parseInt(txtId.getText());
-        String Tipo = txtTipo.getText();
-        String Descripcion = txtDescripcion.getText();
-        Double Precio = (Double.parseDouble(txtPrecio.getText()));
-        int Inventario = Integer.parseInt(txtInventario.getText());
-        Productos productoModificado = new Productos(Tipo, Descripcion, Precio, Inventario);
-        productoModificado.setTipo(Tipo);
+        int id = Integer.parseInt(txtId.getText());
+        int cantidad = Integer.parseInt(txtInventario.getText());
+        Productos productoModificado = new Productos(txtTipo.getText(), txtDescripcion.getText(), Double.valueOf(txtPrecio.getText()));
         try {
             Connection connection = Conexion.getConexion();
-            PreparedStatement ps = connection.prepareStatement("UPDATE Productos SET Tipo =?,Descripcion=?,Precio=?,Inventario=? WHERE Id=?");
+            PreparedStatement ps = connection.prepareStatement("UPDATE Products SET Tipo =?,Descripcion=?,Precio=? WHERE Id=?");
             ps.setString(1, productoModificado.getTipo());
             ps.setString(2, productoModificado.getDescripcion());
             ps.setDouble(3, productoModificado.getPrecio());
-            ps.setInt(4, productoModificado.getInventario());
-            ps.setInt(5, Id);
+            ps.setInt(4, id);
             ps.executeUpdate();
+            // now we update the inventory
+            ProducInventoryService inventoryService = new ProducInventoryService();
+            inventoryService.actualizarProductoInventario(id, cantidad);
             JOptionPane.showMessageDialog(null, "Registro actualizado existosamente");
             limpiar();
             cargarTabla();
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
-
         }
-          
     }//GEN-LAST:event_btnActualizarActionPerformed
 
     private void btnCerrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarActionPerformed
- 
 
-        
+
     }//GEN-LAST:event_btnCerrarActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
-        JAdmin mainFrame =new JAdmin();
+        JAdmin mainFrame = new JAdmin();
         mainFrame.setVisible(true);
     }//GEN-LAST:event_formWindowClosed
 
-   
-  public void limpiar(){
-  txtId.setText("");
-  txtTipo.setText("");
-  txtDescripcion.setText("");
-  txtPrecio.setText("");
-  txtInventario.setText("");
-  btnGr.clearSelection();
+    private void tblProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductosMouseClicked
+        int idx = tblProductos.getSelectedRow();
+        txtId.setText(String.valueOf(tblProductos.getValueAt(idx,0)));
+        txtTipo.setText((String)tblProductos.getValueAt(idx,1));
+        txtDescripcion.setText((String)tblProductos.getValueAt(idx,2));
+        txtPrecio.setText(String.valueOf(tblProductos.getValueAt(idx,3)));
+        txtInventario.setText(String.valueOf(tblProductos.getValueAt(idx,4)));
+    }//GEN-LAST:event_tblProductosMouseClicked
 
-  }  
-  
-  private void cargarTabla(){
+    public void limpiar() {
+        txtId.setText("");
+        txtTipo.setText("");
+        txtDescripcion.setText("");
+        txtPrecio.setText("");
+        txtInventario.setText("");
+        btnGr.clearSelection();
+
+    }
+
+    private void cargarTabla() {
+        ProducInventoryService inventoryService = new ProducInventoryService();
+        Map<Integer, Integer> product_map = inventoryService.getProducts();
         DefaultTableModel modeloTabla = (DefaultTableModel) tblProductos.getModel();
         modeloTabla.setRowCount(0);
         PreparedStatement ps;
@@ -340,36 +362,36 @@ public class JProductos extends javax.swing.JFrame {
         ResultSetMetaData rsmd;
         int column;
         int[] width = {10, 40, 50, 20, 10};
+        // sets the width of the table, we add + 1 as we no longer retrieve count from product table, instead from inventory
         for (int i = 0; i < tblProductos.getColumnCount(); i++) {
             tblProductos.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
         }
+        // prepare the data to be rendered as expected in the table
         try {
             Connection connection = Conexion.getConexion();
-            ps = connection.prepareStatement("SELECT Id,Tipo,Descripcion,Precio,Inventario FROM Productos");
+            ps = connection.prepareStatement("SELECT id, tipo, descripcion, precio FROM Products");
             rs = ps.executeQuery();
             rsmd = rs.getMetaData();
-            column = rsmd.getColumnCount();
+            column = rsmd.getColumnCount() + 1;
             while (rs.next()) {
                 Object[] row = new Object[column];
                 for (int index = 0; index < column; index++) {
-                    row[index] = rs.getObject(index + 1);
-
+                    // getting the data from the hash by index, size bigger than set
+                    if (index == rsmd.getColumnCount()){
+                        row[index] = product_map.get((Integer)rs.getObject(1));
+                    }else {
+                        row[index] = rs.getObject(index + 1);
+                    }
                 }
                 modeloTabla.addRow(row);
 
             }
-
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
-
         }
 
     }
-  
-  
-    
-  
-    
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -395,7 +417,7 @@ public class JProductos extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable(){
             public void run() {
                 new JProductos().setVisible(true);
             }

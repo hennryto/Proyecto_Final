@@ -19,11 +19,18 @@ public class Productos {
     private String tipo;
     private String descripcion;
     private Double precio;
-    private int inventario;
-    private int cantidad;
+    private int id;
+    // se mueven para inventaro
+  //  private int inventario;
+  //  private int cantidad;
     
-    
-   
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTipo() {
         return tipo;
@@ -49,6 +56,7 @@ public class Productos {
         this.precio = precio;
     }
 
+    /*
     public int getInventario() {
         return inventario;
     }
@@ -67,38 +75,26 @@ public class Productos {
         this.cantidad = cantidad;
     }
     
-    
+    */
     public Productos() {
     }
 
-    public Productos(String tipo, String descripcion, Double precio, int inventario, int cantidad) {
+    public Productos(String tipo, String descripcion, Double precio) {
         this.tipo = tipo;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.inventario = inventario;
-        this.cantidad = cantidad;
-        
-        
-    }
-
-    public Productos(String tipo, String descripcion, Double precio, int inventario) {
-        this.tipo = tipo;
-        this.descripcion = descripcion;
-        this.precio = precio;
-        this.inventario = inventario;
     }
     
     
-    
-
+/*
     public Productos(int cantidad) {
         this.cantidad = cantidad;
     }
-    
+ */   
 
     @Override
     public String toString() {
-        return "Productos{ tipo=" + tipo + ", descripcion=" + descripcion + ", precio=" + precio + ", inventario=" + inventario + ", cantidad=" + cantidad + '}';
+        return "Productos{ tipo=" + tipo + ", descripcion=" + descripcion + ", precio=" + precio + ", inventario=" + '}';
     }
 
 
