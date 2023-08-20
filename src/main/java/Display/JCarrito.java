@@ -88,8 +88,6 @@ public class JCarrito extends javax.swing.JFrame {
         TxtIva.setText("");
         Txt_IncEnvio.setText("");
         TxtTotal.setText("");
-        //  btnAgregar.clearSelection();
-
     }
 
     private void cargarTablaCarrito() {
@@ -116,14 +114,11 @@ public class JCarrito extends javax.swing.JFrame {
 
                 }
                 modeloTabla.addRow(row);
-
             }
 
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());
-
         }
-
     }
 
     /**
@@ -224,7 +219,7 @@ public class JCarrito extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -232,12 +227,12 @@ public class JCarrito extends javax.swing.JFrame {
             }
         });
         JtableCarrito.addAncestorListener(new javax.swing.event.AncestorListener() {
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 JtableCarritoAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jScrollPane1.setViewportView(JtableCarrito);
@@ -481,7 +476,7 @@ public class JCarrito extends javax.swing.JFrame {
             //double subtotal = model.getValueAt(row, 1).doubleValue() * model.getValueAt(row, 2).doubleValue();
             double subtotal = 0.0;
             try {
-                subtotal =  Double.parseDouble((String) model.getValueAt(row, 1)) * Double.parseDouble((String) model.getValueAt(row, 2));
+                subtotal = (Integer)model.getValueAt(row, 1) * (Double)model.getValueAt(row, 2);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.toString());
             }
