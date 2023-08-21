@@ -20,29 +20,26 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-
 /**
  *
  * @author 50683
  */
 public class JLogin extends javax.swing.JFrame {
-    
 
-  
     public JLogin() {
-   
         initComponents();
-
-    ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\key.png");
-    jLabel2.setIcon(icono);
-    ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
-    jLabel1.setIcon(icono1);
-    
- 
-
-
+        ImageIcon icono = new ImageIcon("src\\main\\java\\Imagenes\\key.png");
+        jLabel2.setIcon(icono);
+        ImageIcon icono1 = new ImageIcon("src\\main\\java\\Imagenes\\user_accounts.png");
+        jLabel1.setIcon(icono1);
+        this.bypassLogin();
+        this.dispose();
     }
-  
+    
+    //private void tmpLogin(){
+    //    txtLoginUsuario.setText("andre");
+    //    txtLoginPassword.setText("12345");
+    //}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -113,6 +110,13 @@ public class JLogin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.bypassLogin();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    // bypass
+    private void bypassLogin(){
+        // in case we want to avoid entering values all the time
+        //tmpLogin();
         Usuarios usuario = new Usuarios();
         usuario.setUsuario(txtLoginUsuario.getText());
         usuario.setContrasenna(new String(txtLoginPassword.getPassword()));
@@ -125,11 +129,13 @@ public class JLogin extends javax.swing.JFrame {
             try ( ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     String tipoUsuario = rs.getString("tipoUsuario");
+                    // creamos usuario tipo session
+                    usuario = new Usuarios(Integer.parseInt(rs.getString("id")), rs.getString("nombre"), rs.getString("apellido"));
                     if (tipoUsuario.equals("A")) {
                         JAdmin jAdmin = new JAdmin();
                         jAdmin.setVisible(true);
                     } else if (tipoUsuario.equals("E")) {
-                        JCarrito jFrameCarrito = new JCarrito();
+                        JCarrito jFrameCarrito = new JCarrito(usuario);
                         jFrameCarrito.setVisible(true);
                         this.dispose();
                     } else {
@@ -144,32 +150,30 @@ public class JLogin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e.toString());
         }
         Connection connection = Conexion.getConexion();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
-      
-        if(evt.getKeyCode()==KeyEvent.VK_ENTER){
-            jButton1ActionPerformed(null);
-   
-//int enterKey = java.awt.event.KeyEvent.VK_ENTER;
-        //if (evt.getKeyCode() == enterKey) {
-        //jButton1ActionPerformed(null);
-
     }
-        
+    
+    
+    private void formKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyPressed
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton1ActionPerformed(null);
+
+//int enterKey = java.awt.event.KeyEvent.VK_ENTER;
+            //if (evt.getKeyCode() == enterKey) {
+            //jButton1ActionPerformed(null);
+        }
+
     }//GEN-LAST:event_formKeyPressed
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-     this.requestFocusInWindow();
+        this.requestFocusInWindow();
     }//GEN-LAST:event_formMouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
- 
-    
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -192,7 +196,7 @@ public class JLogin extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(JLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-        
+
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -202,8 +206,7 @@ public class JLogin extends javax.swing.JFrame {
         }
         );
     }
- 
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
