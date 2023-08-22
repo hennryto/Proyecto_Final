@@ -408,7 +408,7 @@ public class JUsuarios extends javax.swing.JFrame {
         } else {
             tipodeUsuario = "E";
     }
-    Usuarios usuarioModificado = new Usuarios(usuario, contrasenna, nombre, apellido, direccion, numeroTelefono, email, tipodeUsuario);
+    Usuarios usuarioModificado = new Usuarios(Id, usuario, contrasenna, nombre, apellido, direccion, numeroTelefono, email, tipodeUsuario);
     usuarioModificado.setUsuario(usuario);
     ImageIcon icono2 = new ImageIcon("src\\main\\java\\Imagenes\\UserEdit.png");
     try {
