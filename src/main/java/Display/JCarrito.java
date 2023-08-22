@@ -6,8 +6,13 @@ package Display;
 
 import Clases.Carrito;
 import Clases.Conexion;
+import Clases.CurrentUser;
+import Clases.Factura;
+import Clases.LineaDeCompra;
 import Clases.Productos;
 import Clases.Services.ProducInventoryService;
+import Clases.Usuarios;
+import Data.DataFacturas;
 import Data.DataProductos;
 import java.awt.event.ActionEvent;
 import java.awt.event.ItemEvent;
@@ -25,6 +30,12 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -37,36 +48,65 @@ import javax.swing.JTable;
 public class JCarrito extends javax.swing.JFrame {
 
     /**
-     * Creates new form JCarrito
+     * crear new form JCarrito
      */
-    public JCarrito() {
+    Map<Integer, LineaDeCompra> lineasDeCompra = new HashMap<>();
+    public double preliminaryTotal = 0.0;
+    Map<Integer, Integer> product_map = new HashMap();
+    ProducInventoryService inventoryService = new ProducInventoryService();
+    Usuarios usuario;
+    Factura factura;
+    // Constants
+    double IVA = 0.2;
+    double EXPRESS_FEE = 0.3;
+    public JCarrito(Usuarios pUser) {
+         // para obtener la cantidad de inventario de artículos
+        this.product_map = inventoryService.getProducts();
+        this.usuario = pUser;
         initComponents();
         llenarProductos();
         cargarTablaCarrito();
         ButtonGroup btnAnnadir;
         btnAnnadir = new ButtonGroup();
-
+        setFacturaValues();
+    }
+    
+    private void setFacturaValues(){
+        // fecha
+        DateTimeFormatter formatters = DateTimeFormatter.ofPattern("d/MM/uuuu");
+        String text = LocalDate.now().format(formatters);
+        this.factura = new Factura(this.usuario.getId(), LocalDate.now(), idFactura());
+        this.TextFieldFacturaId.setText(String.valueOf(factura.getId()));
+        this.txtfieldFecha.setText(text);
+        // Nombre cliente
+        this.txtfieldNombrecliente.setText(this.usuario.fullName());
+        // Id cliente
+        this.txtfieldIdCliente.setText(String.valueOf(this.usuario.getId()));
+    }
+    
+    public JCarrito() {
+         // para obtener la cantidad de inventario de artículos
+        this.usuario = null;
+        initComponents();
+        llenarProductos();
+        cargarTablaCarrito();
+        ButtonGroup btnAnnadir;
+        btnAnnadir = new ButtonGroup();
     }
 
     private ArrayList<Productos> listaProductos;
 
     private void llenarProductos() {
-
+        this.product_map = inventoryService.getProducts();
         DataProductos dtProductos = new DataProductos();
         listaProductos = dtProductos.getProductos();  // Inicializar la listaProductos
-        // to fetch inventory amount of items
-        ProducInventoryService inventoryService = new ProducInventoryService();
-        Map<Integer, Integer> product_map = inventoryService.getProducts();
-        lblDisponible.setText(String.valueOf(product_map.get(listaProductos.get(0).getId())));
+        lblDisponible.setText(String.valueOf(this.product_map.get(listaProductos.get(0).getId())));
         cboProductos.removeAllItems();
-
         for (int i = 0; i < listaProductos.size(); i++) {
             cboProductos.addItem(listaProductos.get(i).getDescripcion());
         }
-
         cboProductos.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
-
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     int selectedProductIndex = cboProductos.getSelectedIndex();
                     if (selectedProductIndex != -1) {
@@ -76,49 +116,13 @@ public class JCarrito extends javax.swing.JFrame {
                         lblDisponible.setText(cantidad + "");
                     }
                 }
-
             }
         });
-    }
-
-    public void limpiar() {
-        cboProductos.getSelectedIndex();
-        lblDisponible.getText();
-        TxtPrecio.setText("");
-        TxtIva.setText("");
-        Txt_IncEnvio.setText("");
-        TxtTotal.setText("");
     }
 
     private void cargarTablaCarrito() {
         DefaultTableModel modeloTabla = (DefaultTableModel) JtableCarrito.getModel();
         modeloTabla.setRowCount(0);
-        PreparedStatement ps;
-        ResultSet rs;
-        ResultSetMetaData rsmd;
-        int column;
-        int[] width = {10, 40, 50, 20, 10};
-        for (int i = 0; i < JtableCarrito.getColumnCount(); i++) {
-            JtableCarrito.getColumnModel().getColumn(i).setPreferredWidth(width[i]);
-        }
-        try {
-            Connection connection = Conexion.getConexion();
-            ps = connection.prepareStatement("SELECT Descripcion,Cantidad,Precio,Iva,Envio,Total FROM Carrito");
-            rs = ps.executeQuery();
-            rsmd = rs.getMetaData();
-            column = rsmd.getColumnCount();
-            while (rs.next()) {
-                Object[] row = new Object[column];
-                for (int index = 0; index < column; index++) {
-                    row[index] = rs.getObject(index + 1);
-
-                }
-                modeloTabla.addRow(row);
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
-        }
     }
 
     /**
@@ -151,8 +155,18 @@ public class JCarrito extends javax.swing.JFrame {
         Txt_IncEnvio = new javax.swing.JTextField();
         TxtTotal = new javax.swing.JTextField();
         btnPagar = new javax.swing.JButton();
-        btnImprimir = new javax.swing.JButton();
+        btnVerFacturas = new javax.swing.JButton();
         CheckBxEnvio = new javax.swing.JCheckBox();
+        jLabelNombreCliente = new javax.swing.JLabel();
+        txtfieldNombrecliente = new javax.swing.JTextField();
+        jLabelIdCliente = new javax.swing.JLabel();
+        txtfieldIdCliente = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        txtfieldFecha = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        TextFieldFacturaId = new javax.swing.JTextField();
+        btnCancelarCompra = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -184,6 +198,11 @@ public class JCarrito extends javax.swing.JFrame {
         });
 
         cboProductos.setBorder(javax.swing.BorderFactory.createTitledBorder("Productos"));
+        cboProductos.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboProductosItemStateChanged(evt);
+            }
+        });
         cboProductos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboProductosActionPerformed(evt);
@@ -197,8 +216,13 @@ public class JCarrito extends javax.swing.JFrame {
         });
 
         jS_Cantidad.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jS_Cantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
+        jS_Cantidad.setModel(new javax.swing.SpinnerNumberModel(1, 1, 1000000, 1));
         jS_Cantidad.setBorder(javax.swing.BorderFactory.createTitledBorder("Cantidad"));
+        jS_Cantidad.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jS_CantidadStateChanged(evt);
+            }
+        });
 
         btnAgregar.setText("Agregar");
         btnAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -209,35 +233,43 @@ public class JCarrito extends javax.swing.JFrame {
 
         JtableCarrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Producto", "Cantidad", "Precio"
+                "ID", "Producto", "Cantidad", "Precio"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.Integer.class, java.lang.Double.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
             };
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
         });
         JtableCarrito.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
                 JtableCarritoAncestorAdded(evt);
             }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-            }
         });
         jScrollPane1.setViewportView(JtableCarrito);
 
         lblDisponible.setBackground(new java.awt.Color(255, 255, 255));
+        lblDisponible.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblDisponible.setForeground(new java.awt.Color(255, 255, 255));
         lblDisponible.setBorder(javax.swing.BorderFactory.createTitledBorder("Disponible"));
 
@@ -271,7 +303,12 @@ public class JCarrito extends javax.swing.JFrame {
             }
         });
 
-        btnImprimir.setText("Imprimir Factura");
+        btnVerFacturas.setText("Ver mis facturas");
+        btnVerFacturas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerFacturasActionPerformed(evt);
+            }
+        });
 
         CheckBxEnvio.setText("Incluir Envio");
         CheckBxEnvio.addActionListener(new java.awt.event.ActionListener() {
@@ -280,56 +317,121 @@ public class JCarrito extends javax.swing.JFrame {
             }
         });
 
+        jLabelNombreCliente.setText("Nombre cliente: ");
+
+        txtfieldNombrecliente.setEditable(false);
+        txtfieldNombrecliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfieldNombreclienteActionPerformed(evt);
+            }
+        });
+
+        jLabelIdCliente.setText("Id de cliente:");
+
+        txtfieldIdCliente.setEditable(false);
+
+        jLabel1.setText("Fecha:");
+
+        txtfieldFecha.setEditable(false);
+        txtfieldFecha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtfieldFechaActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("ID:");
+
+        TextFieldFacturaId.setEditable(false);
+        TextFieldFacturaId.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TextFieldFacturaIdActionPerformed(evt);
+            }
+        });
+
+        btnCancelarCompra.setText("Cancelar compra");
+        btnCancelarCompra.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarCompraActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(14, 14, 14)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(TxtPrecio)
-                                    .addComponent(TxtIva)
-                                    .addComponent(Txt_IncEnvio)
-                                    .addComponent(TxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(TxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(TxtPrecio)
+                                            .addComponent(TxtIva)
+                                            .addComponent(Txt_IncEnvio)
+                                            .addComponent(TxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(TxtValorIva, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtValorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(91, 91, 91)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(btnImprimir, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                    .addComponent(CheckBxEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(TxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(TxtValorIva, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtValorPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(CheckBxEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(57, 57, 57)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(btnCancelarCompra)
+                                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                        .addComponent(btnPagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                        .addComponent(btnVerFacturas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(jS_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(46, 46, 46)
+                                        .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(0, 6, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(cboProductos, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jS_Cantidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblDisponible, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(46, 46, 46)
-                                .addComponent(btnAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 78, Short.MAX_VALUE)))
+                                .addComponent(jL_CarritoTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(TextFieldFacturaId, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel3))))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelNombreCliente, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabelIdCliente, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtfieldIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtfieldNombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtfieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
-                .addComponent(jL_CarritoTitulo)
-                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jL_CarritoTitulo)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(TextFieldFacturaId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAgregar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cboProductos, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                        .addComponent(cboProductos)
                         .addComponent(jS_Cantidad))
                     .addComponent(lblDisponible, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -343,16 +445,29 @@ public class JCarrito extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtValorIva, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnImprimir))
+                    .addComponent(btnVerFacturas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Txt_IncEnvio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(CheckBxEnvio))
+                    .addComponent(CheckBxEnvio)
+                    .addComponent(btnCancelarCompra))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TxtTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TxtValorTotal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(183, 183, 183))
+                .addGap(55, 55, 55)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelNombreCliente)
+                    .addComponent(txtfieldNombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelIdCliente)
+                    .addComponent(txtfieldIdCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(txtfieldFecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(32, 32, 32))
         );
 
         lblDisponible.getAccessibleContext().setAccessibleParent(lblDisponible);
@@ -363,68 +478,29 @@ public class JCarrito extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cboProductosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboProductosActionPerformed
-        // TODO add your handling code here:
+             // TODO add your handling code here:
     }//GEN-LAST:event_cboProductosActionPerformed
 
     private void TxtValorIvaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorIvaActionPerformed
-//DEBO AGREGAR EL VALOR DEL IVA
-        masIva();
-        actualizarResultado();
-    }
 
-    private void masIva() {
-        DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
-
-        double sumatotalIva = 0;
-        for (int row = 0; row < model.getRowCount(); row++) {
-            int cantidad = (int) model.getValueAt(row, 1); // Obtener la cantidad
-            double precio = (double) model.getValueAt(row, 2); // Obtener el precio
-            double subtotalIva = (precio * 0.20); // Calcular el subtotal
-            sumatotalIva += subtotalIva; // Acumular al total
-        }
-
-        TxtValorIva.setText(String.valueOf(sumatotalIva));
-
-        // TODO add your handling code here:
     }//GEN-LAST:event_TxtValorIvaActionPerformed
 
 
     private void TxtValorTotalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtValorTotalActionPerformed
-        int valorTotal = 0;
 
-    }
-
-    private void valorTotal() {
-        DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
-
-        double sumaTotal = 0;
-        for (int row = 0; row < model.getRowCount(); row++) {
-            double subtotal = (double) model.getValueAt(row, 2);
-            sumaTotal += subtotal;
-        }
-
-        double iva = Double.parseDouble(TxtValorIva.getText());
-        double totalSinEnvio = sumaTotal + iva;
-
-        double totalConEnvio = totalSinEnvio;
-        if (CheckBxEnvio.isSelected()) {
-            totalConEnvio *= 1.3; // Agregar 30% por el envío
-        }
-
-        TxtValorTotal.setText(String.valueOf(totalConEnvio));
     }//GEN-LAST:event_TxtValorTotalActionPerformed
 
 // ESTE METODO ME AYUDA A MOSTRAR LA IMAGEN DEL ICONO
@@ -438,25 +514,50 @@ public class JCarrito extends javax.swing.JFrame {
         String comboBoxValue = cboProductos.getSelectedItem().toString();
         int selectedProductIndex = cboProductos.getSelectedIndex();
         int cantidad = (int) this.jS_Cantidad.getValue();
+        int facturaId = this.factura.getId();
 
         if (selectedProductIndex != -1 && cantidad > 0) {
             Productos selectedProduct = listaProductos.get(selectedProductIndex); // Obtener el producto seleccionado
             double precio = selectedProduct.getPrecio();
-
-            //double subtotal = precio * cantidad;
-
             DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
-            model.addRow(new Object[]{cboProductos.getSelectedItem(), this.jS_Cantidad.getValue(), precio});
-
-            calcularPrecio(); // Llamar al método para recalcular el total      
-            //masIva(); // Llama el metodo y actualiza para inclur el IVA
-            //valorTotal(); // Muestra el valor total, incluyendo el IVA 
-
+            // revisamos si ya hay una linea de compra, en caso de que asi sea solo la modificmos
+            LineaDeCompra linePrecense = lineasDeCompra.get(selectedProduct.getId());
+            // prduct line is new so we just add the new element to the list
+            if (linePrecense == null){
+                LineaDeCompra newLine = new LineaDeCompra(selectedProduct.getId(), cboProductos.getSelectedItem().toString(), 
+                        (int) this.jS_Cantidad.getValue(), precio, model.getRowCount(), facturaId);
+                model.addRow(newLine.toObject());
+                lineasDeCompra.put(newLine.getProductId(), newLine);
+            }else{
+                // we edit the existing record and row in the list
+                linePrecense.setCantidad(linePrecense.getCantidad() + cantidad);
+                model.setValueAt(linePrecense.getCantidad(), linePrecense.getRowIndex(), 2);
+            }
+            calcularPrecio();
+            this.jS_Cantidad.setValue(1);
         }
-
-
     }//GEN-LAST:event_btnAgregarActionPerformed
 
+    private int idFactura(){
+        try {
+
+            Connection connection = Conexion.getConexion();
+            PreparedStatement ps = connection.prepareStatement("SELECT IDENT_CURRENT('Factura')+1 as next_id");
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                int nextId = rs.getInt("next_id");
+                return nextId;
+            } else {
+                return -1;
+            }
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e.toString());
+            return -1;
+        }
+    }
+   
+    
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
         JLogin jLogin = new JLogin();
         jLogin.setVisible(true);
@@ -468,24 +569,23 @@ public class JCarrito extends javax.swing.JFrame {
 
     private void calcularPrecio() {
         DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
-
-        double sumatotal = 0.0; //Inicializo el valor
+        double total = 0.0;
         for (int row = 0; row < model.getRowCount(); row++) {
-            //model.getValueAt(0, 2).multiply(BigDecimal.valueOf(model.getValueAt(row, 1)));
-            
-            //double subtotal = model.getValueAt(row, 1).doubleValue() * model.getValueAt(row, 2).doubleValue();
             double subtotal = 0.0;
             try {
-                subtotal = (Integer)model.getValueAt(row, 1) * (Double)model.getValueAt(row, 2);
+                subtotal = (Integer)model.getValueAt(row, 2) * (Double)model.getValueAt(row, 3);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, e.toString());
             }
-            sumatotal = sumatotal + subtotal;
+            total = total + subtotal;
         }
-        
-        txtValorPrecio.setText(String.valueOf(sumatotal)); // Brinda el nuevo valor del precio
-
-
+        preliminaryTotal = total;
+        txtValorPrecio.setText(String.valueOf(preliminaryTotal));
+        // IVA
+        double subTotalIva = preliminaryTotal * IVA;
+        preliminaryTotal = preliminaryTotal + subTotalIva;
+        TxtValorIva.setText(String.valueOf(subTotalIva));
+        TxtValorTotal.setText(String.valueOf(preliminaryTotal));
     }//GEN-LAST:event_txtValorPrecioActionPerformed
 
 
@@ -494,24 +594,13 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_JtableCarritoAncestorAdded
 
     private void CheckBxEnvioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CheckBxEnvioActionPerformed
-        actualizarResultado();
-    }
-
-    private double actualizarResultado() {
-
-        double total = Double.parseDouble(TxtValorTotal.getText());
-        double resultado;
-
-        if (CheckBxEnvio.isSelected()) {
-            resultado = total * 0.3; // Agregar 30% si el checkbox está seleccionado
-
-        } else {
-            resultado = total;
+        // Express
+        double fee = preliminaryTotal * EXPRESS_FEE;
+        double total = preliminaryTotal;
+        if (CheckBxEnvio.isSelected()){
+            total += fee;
         }
-
-        return resultado;
-
-// TODO add your handling code here:
+        TxtValorTotal.setText(String.valueOf(total));
     }//GEN-LAST:event_CheckBxEnvioActionPerformed
 
     private void TxtTotalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TxtTotalMouseClicked
@@ -519,41 +608,82 @@ public class JCarrito extends javax.swing.JFrame {
     }//GEN-LAST:event_TxtTotalMouseClicked
 
     private void btnPagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarActionPerformed
-
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_btnPagarActionPerformed
 
     private void btnPagarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnPagarMouseClicked
-        Carrito carrito = new Carrito();
-        carrito.setDescripcion(cboProductos.getSelectedItem().toString());
-        carrito.setCantidad((int) jS_Cantidad.getValue());
-        carrito.setPrecio((int) Double.parseDouble(txtValorPrecio.getText()));
-        carrito.setIva((int) Double.parseDouble(TxtValorIva.getText()));
-        carrito.setEnvio(CheckBxEnvio.isSelected() ? 1 : 0); // Cambiado para usar 1 si el checkbox está marcado, 0 si no lo está
-        carrito.setTotal((int) Double.parseDouble(TxtValorTotal.getText()));
-        try {
-            Connection connection = Conexion.getConexion();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO Carrito(Descripcion,Cantidad,Precio,Iva,Envio,Total) VALUES(?,?,?,?,?,?)");
-            ps.setString(1, carrito.getDescripcion());
-            ps.setInt(2, carrito.getCantidad());
-            ps.setDouble(3, carrito.getPrecio());
-            ps.setDouble(4, carrito.getIva());
-            ps.setDouble(5, carrito.getEnvio());
-            ps.setDouble(6, carrito.getTotal());
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Compra realizada exitosamente ");
-            limpiar();
-            cargarTablaCarrito();
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e.toString());
-        }
-
-        // TODO add your handling code here:
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        LocalDate localDate = LocalDate.parse(this.txtfieldFecha.getText(), formatter);
+        double expressFee = CheckBxEnvio.isSelected() ? preliminaryTotal * EXPRESS_FEE : 0.0;
+        DataFacturas.agregarFactura(Double.parseDouble(this.TxtValorIva.getText()), expressFee, 
+                Double.parseDouble(this.TxtValorTotal.getText()), this.factura.getuserId(), Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        lineasDeCompra.forEach((k, v) -> {
+            inventoryService.agregarLineadeCompra(v.getProductId(), v.getIdFactura(), v.getPrecio(), v.getCantidad());
+            // calcular nuevos valores para el inventario
+            inventoryService.actualizarProductoInventario(v.getProductId(), product_map.get(v.getProductId()) - v.getCantidad());
+        });
+        JOptionPane.showMessageDialog(null, "Factura creada exitosamente");
+        setDefaultValues();
     }//GEN-LAST:event_btnPagarMouseClicked
-
+    
+    private void setDefaultValues(){
+        txtValorPrecio.setText("");
+        TxtValorIva.setText("");
+        TxtValorTotal.setText("");
+        CheckBxEnvio.setSelected(false);
+        DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
+        model.setRowCount(0);
+        this.factura.setId(idFactura());
+        this.TextFieldFacturaId.setText(String.valueOf(factura.getId()));
+        lineasDeCompra.clear();
+        llenarProductos();
+    }
     private void TxtPrecioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TxtPrecioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TxtPrecioActionPerformed
+
+    private void jS_CantidadStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jS_CantidadStateChanged
+        Productos selectedProduct = listaProductos.get(cboProductos.getSelectedIndex());
+        // debemos verificar si el producto ya se ha agregado a la lista; de ser así, debemos actualizar la cantidad y sustraer los elementos utilizados para obtener un nuevo límite máximo
+        DefaultTableModel model = (DefaultTableModel) JtableCarrito.getModel();
+        LineaDeCompra linePrecense = lineasDeCompra.get(selectedProduct.getId());
+        int cap = product_map.get(selectedProduct.getId());
+        if (linePrecense != null){
+            cap -= (Integer) model.getValueAt(linePrecense.getRowIndex(), 2);
+        }
+        if ((int) this.jS_Cantidad.getValue() > cap){
+            JOptionPane.showMessageDialog(null, "Cantidad no puede ser mayor al maximo de items en inventario");
+            jS_Cantidad.setValue(cap);
+        }
+    }//GEN-LAST:event_jS_CantidadStateChanged
+
+    private void cboProductosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboProductosItemStateChanged
+        jS_Cantidad.setValue(1);
+    }//GEN-LAST:event_cboProductosItemStateChanged
+
+    private void txtfieldNombreclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfieldNombreclienteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfieldNombreclienteActionPerformed
+
+    private void txtfieldFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtfieldFechaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtfieldFechaActionPerformed
+
+    private void TextFieldFacturaIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextFieldFacturaIdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TextFieldFacturaIdActionPerformed
+
+    private void btnVerFacturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerFacturasActionPerformed
+        this.dispose();
+        JFactura jFrameFactura= new JFactura(this.usuario.getId());
+        jFrameFactura.setVisible(true);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerFacturasActionPerformed
+
+    private void btnCancelarCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarCompraActionPerformed
+        this.dispose();
+        JCarrito jSelf = new JCarrito(CurrentUser.currentUser);
+        jSelf.setVisible(true);
+    }//GEN-LAST:event_btnCancelarCompraActionPerformed
 
     /**
      * @param args the command line arguments
@@ -593,6 +723,7 @@ public class JCarrito extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox CheckBxEnvio;
     private javax.swing.JTable JtableCarrito;
+    private javax.swing.JTextField TextFieldFacturaId;
     private javax.swing.JTextField TxtIva;
     private javax.swing.JTextField TxtPrecio;
     private javax.swing.JTextField TxtTotal;
@@ -600,20 +731,29 @@ public class JCarrito extends javax.swing.JFrame {
     private javax.swing.JTextField TxtValorTotal;
     private javax.swing.JTextField Txt_IncEnvio;
     private javax.swing.JButton btnAgregar;
-    private javax.swing.JButton btnImprimir;
+    private javax.swing.JButton btnCancelarCompra;
     private javax.swing.JButton btnPagar;
+    private javax.swing.JButton btnVerFacturas;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JComboBox<String> cboProductos;
     private javax.swing.JLabel jL_CarritoTitulo;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelIdCliente;
+    private javax.swing.JLabel jLabelNombreCliente;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JSpinner jS_Cantidad;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDisponible;
     private javax.swing.JTextField txtValorPrecio;
+    private javax.swing.JTextField txtfieldFecha;
+    private javax.swing.JTextField txtfieldIdCliente;
+    private javax.swing.JTextField txtfieldNombrecliente;
     // End of variables declaration//GEN-END:variables
 
     private ActionEvent setText(String valueOf) {
